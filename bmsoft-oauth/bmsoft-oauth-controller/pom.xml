@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>bmsoft-oauth</artifactId>
+        <groupId>com.bmsoft.cloud</groupId>
+        <version>c.2.3-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>bmsoft-oauth-controller</artifactId>
+    <name>${project.artifactId}</name>
+    <description>权限服务接口模块</description>
+    <dependencies>
+
+        <dependency>
+            <groupId>com.bmsoft.cloud</groupId>
+            <artifactId>bmsoft-oauth-biz</artifactId>
+            <version>${bmsoft-project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bmsoft.cloud</groupId>
+            <artifactId>bmsoft-authority-biz</artifactId>
+            <version>${bmsoft-project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bmsoft.cloud</groupId>
+            <artifactId>bmsoft-tenant-biz</artifactId>
+            <version>${bmsoft-project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bmsoft.cloud</groupId>
+            <artifactId>bmsoft-msgs-api</artifactId>
+            <version>${bmsoft-project.version}</version>
+        </dependency>
+        <!-- jwt 只有Oauth服务需要使用 -->
+        <dependency>
+            <groupId>com.bmsoft.cloud</groupId>
+            <artifactId>bmsoft-jwt-starter</artifactId>
+        </dependency>
+    </dependencies>
+
+
+</project>

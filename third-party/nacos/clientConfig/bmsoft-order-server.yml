@@ -1,0 +1,18 @@
+bmsoft:
+  database:
+    isSeata: true
+    multiTenantType: DATASOURCE
+  swagger:
+    docket:
+      order:
+        title: 演示服务
+        base-package: com.bmsoft.cloud.order.controller
+
+
+logging:
+  io.seata: debug
+  org.springframework.cloud.alibaba.seata.web: debug
+
+
+server:
+  port: 8769

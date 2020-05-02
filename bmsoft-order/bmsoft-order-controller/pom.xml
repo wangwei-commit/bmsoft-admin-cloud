@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>bmsoft-order</artifactId>
+        <groupId>com.bmsoft.cloud</groupId>
+        <version>c.2.3-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <name>${project.artifactId}</name>
+    <artifactId>bmsoft-order-controller</artifactId>
+    <description>订单服务接口模块</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.bmsoft.cloud</groupId>
+            <artifactId>bmsoft-order-biz</artifactId>
+            <version>${bmsoft-project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bmsoft.cloud</groupId>
+            <artifactId>bmsoft-demo-entity</artifactId>
+            <version>${bmsoft-project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bmsoft.cloud</groupId>
+            <artifactId>bmsoft-oauth-api</artifactId>
+            <version>${bmsoft-project.version}</version>
+        </dependency>
+
+        <!-- 操作日志需要在Controller方法上标注注解 -->
+        <dependency>
+            <groupId>com.bmsoft.cloud</groupId>
+            <artifactId>bmsoft-log-starter</artifactId>
+        </dependency>
+        <!-- 注入当前登录人信息 需要在Controller方法参数上写注解和实体类 -->
+        <dependency>
+            <groupId>com.bmsoft.cloud</groupId>
+            <artifactId>bmsoft-security-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.seata</groupId>
+                    <artifactId>seata-all</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-all</artifactId>
+            <version>${seata.version}</version>
+        </dependency>
+
+
+    </dependencies>
+
+</project>

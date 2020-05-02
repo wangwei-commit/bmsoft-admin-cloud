@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.bmsoft.cloud</groupId>
+        <artifactId>bmsoft-admin-cloud</artifactId>
+        <version>c.2.3-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>bmsoft-msgs</artifactId>
+    <name>${project.artifactId}</name>
+    <description>消息服务</description>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>bmsoft-msgs-api</module>
+        <module>bmsoft-msgs-server</module>
+        <module>bmsoft-sms-controller</module>
+        <module>bmsoft-sms-biz</module>
+        <module>bmsoft-msgs-controller</module>
+        <module>bmsoft-msgs-biz</module>
+        <module>bmsoft-msgs-entity</module>
+    </modules>
+</project>

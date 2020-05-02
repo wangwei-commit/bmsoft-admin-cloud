@@ -1,0 +1,18 @@
+bmsoft:
+  rabbitmq:
+    # 若系统中有除了zipkin之外的地方使用了mq ，则一定不能设置成false
+    enabled: false
+    ip: 127.0.0.1
+    port: 5672
+    username: bmsoft
+    password: bmsoft
+
+spring:
+  rabbitmq:
+    enabled: ${bmsoft.rabbitmq.enabled}
+    host: ${bmsoft.rabbitmq.ip}
+    port: ${bmsoft.rabbitmq.port}
+    username: ${bmsoft.rabbitmq.username}
+    password: ${bmsoft.rabbitmq.password}
+    listener:
+      type: direct # simple direct
