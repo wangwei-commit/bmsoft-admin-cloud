@@ -7,7 +7,7 @@
     <artifactId>bmsoft-admin-cloud</artifactId>
     <version>c.2.3-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <url>https://gitee.com/bmsoft111/bmsoft-cloud</url>
+    <url></url>
     <name>${project.artifactId}</name>
     <description>bmsoft-admin-cloud</description>
     <licenses>
@@ -21,7 +21,7 @@
     <developers>
         <developer>
             <name>bmsoft</name>
-            <email>244387066@qq.com</email>
+            <email></email>
         </developer>
     </developers>
 
