@@ -133,12 +133,9 @@
                 <configuration>
                     <repository>${docker.image.prefix}/${project.artifactId}</repository>
                     <tag>${bmsoft-project.version}</tag>
-                    <dockerDirectory>${project.basedir}</dockerDirectory>
                     <buildArgs>
                         <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
-                    <serverId>myhub</serverId>
-                    <registryUrl>https://localhost:5000/v2/</registryUrl>
                 </configuration>
             </plugin>
         </plugins>
