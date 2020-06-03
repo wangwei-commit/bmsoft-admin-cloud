@@ -1,0 +1,47 @@
+--- 
+- name: docker run mysql
+  hosts: mysql
+  tasks:
+  - name: push local folder to remote host
+    copy: 
+      src: docs/dockerfile/mysql 
+      dest: /data
+      mode: u+x
+  - name: docker run mysql
+    shell: /data/mysql/start.sh
+  - name: set fact of mysql address
+    set_fact:
+      mysql_address: "{{hostvars[groups['mysql'][0]].ansible_default_ipv4.address}}"
+      
+- name: docker run redis
+  hosts: redis
+  tasks:
+  - name: push local folder to remote host
+    copy: 
+      src: docs/dockerfile/redis 
+      dest: /data
+      mode: u+x
+  - name: docker run redis
+    shell: /data/redis/start.sh
+ 
+- name: docker run nacos
+  hosts: nacos
+  tasks:
+  - name: push local folder to remote host
+    copy: 
+      src: docs/dockerfile/nacos 
+      dest: /data
+      mode: u+x
+  - name: docker run nacos
+    shell: /data/nacos/start.sh {{ mysql_address }}
+
+- name: docker run rabbitmq
+  hosts: rabbitmq
+  tasks:
+  - name: push local folder to remote host
+    copy: 
+      src: docs/dockerfile/rabbitmq 
+      dest: /data
+      mode: u+x
+  - name: docker run rabbitmq
+    shell: /data/rabbitmq/start.sh

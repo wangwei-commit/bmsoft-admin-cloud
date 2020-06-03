@@ -1,0 +1,8 @@
+---
+- name: Deploy stack bmsoft-cloud from a compose file
+  host: groups['docker_swarm_manager'][0]
+  docker_stack:
+    state: present
+    name: bmsoft-cloud
+    compose:
+      - docker-compose.yml

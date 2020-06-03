@@ -1,0 +1,18 @@
+--- 
+  - name: "Provision Docker Swarm Cluster"
+    hosts: all
+    become: true
+    roles:
+      - role: atosatto.docker-swarm
+        docker_package_name: "docker-ce"
+        docker_package_version: '19.03.9'
+        docker_package_state: present
+        docker_cli_package_version: "19.03.9"
+        skip_repo: false        # if true, skips the setup of the docker repository
+        skip_containerd: false  # if true, skips the setup of containerd
+        skip_engine: false      # if true, skips the docker engine installation
+        skip_cli: false         # if true, skips the docker cli installation
+        skip_swarm: false       # if true, skips the swarm setup
+        skip_group: true       # if true, does not add the docker_admin_users to the docker_group_name
+        skip_docker_py: false   # if true, skips the installation of docker-py
+        skip_docker_compose: true  # if true, skips the installation of docker-compose

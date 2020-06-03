@@ -10,4 +10,4 @@ docker run -d --hostname bmsoft_rabbitmq --name bmsoft_rabbitmq --restart=always
     -v /data/docker-data/rabbitmq-data/:/var/rabbitmq/lib \
     -p 15672:15672 -p 5672:5672 -p 25672:25672 -p 61613:61613 -p 1883:1883 \
     -e TZ="Asia/Shanghai" \
-    rabbitmq:management
+    192.168.8.197:5000/rabbitmq:management
