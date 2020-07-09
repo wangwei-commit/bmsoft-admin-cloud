@@ -8,7 +8,7 @@ services:
     volumes:
       - /data/:/data
     environment: 
-      - NACOS_IP=192.168.1.34
+      - NACOS_IP=192.168.8.39
       - NACOS_PORT=8848
       - NACOS_ID=bmsoft-cloud
     deploy:
@@ -22,7 +22,7 @@ services:
     volumes:
       - /data/:/data
     environment: 
-      - NACOS_IP=192.168.1.34
+      - NACOS_IP=192.168.8.39
       - NACOS_PORT=8848
       - NACOS_ID=bmsoft-cloud
     deploy:
@@ -36,7 +36,7 @@ services:
     volumes:
       - /data/:/data
     environment: 
-      - NACOS_IP=192.168.1.34
+      - NACOS_IP=192.168.8.39
       - NACOS_PORT=8848
       - NACOS_ID=bmsoft-cloud
     deploy:
@@ -50,7 +50,7 @@ services:
     volumes:
       - /data/:/data
     environment: 
-      - NACOS_IP=192.168.1.34
+      - NACOS_IP=192.168.8.39
       - NACOS_PORT=8848
       - NACOS_ID=bmsoft-cloud
     deploy:
@@ -64,7 +64,7 @@ services:
     volumes:
       - /data/:/data
     environment: 
-      - NACOS_IP=192.168.1.34
+      - NACOS_IP=192.168.8.39
       - NACOS_PORT=8848
       - NACOS_ID=bmsoft-cloud
     deploy:

@@ -58,7 +58,7 @@ public class OauthController {
         if (StrUtil.isEmpty(login.getTenant())) {
             login.setTenant(BaseContextHandler.getTenant());
         }
-        login.setTenant(JwtUtil.base64Decoder(login.getTenant()));
+        //login.setTenant(JwtUtil.base64Decoder(login.getTenant()));
 
         TokenGranter granter = tokenGranterBuilder.getGranter(login.getGrantType());
         R<AuthInfo> userInfo = granter.grant(login);

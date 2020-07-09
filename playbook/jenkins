@@ -1,0 +1,27 @@
+pipeline {
+   agent any
+   
+   environment{
+    ANSIBLE_HOST_KEY_CHECKING = false
+   }
+   
+   stages {
+      stage('构建部署配置文件') {
+         steps {
+            sh "echo '${hosts}' > ${BUILD_TAG}-inventory"
+         }
+      }
+         
+      stage('安装docker swarm环境') {
+         steps {
+            sh "ansible-playbook -i ${BUILD_TAG}-inventory  /root/playbook/docker-swarm-install.yaml"
+         }
+      }
+      
+      stage('部署bmsoft-admin-cloud服务') {
+         steps {
+            sh "ansible-playbook -i ${BUILD_TAG}-inventory  /root/playbook/docker-stack-deploy.yaml"
+         }
+      }
+  }
+}

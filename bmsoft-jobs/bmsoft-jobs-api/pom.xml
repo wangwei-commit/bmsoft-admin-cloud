@@ -39,7 +39,6 @@
         <dependency>
             <groupId>com.bmsoft.cloud</groupId>
             <artifactId>bmsoft-boot</artifactId>
-            <version>${bmsoft-commons.version}</version>
         </dependency>
 
     </dependencies>

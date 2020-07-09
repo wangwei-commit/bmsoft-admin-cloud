@@ -1,8 +1,10 @@
----
-- name: Deploy stack bmsoft-cloud from a compose file
-  host: groups['docker_swarm_manager'][0]
-  docker_stack:
-    state: present
-    name: bmsoft-cloud
-    compose:
-      - docker-compose.yml
+---     
+- name: deploy stack bmsoft-cloud from a compose file
+  hosts: "{{groups['docker_swarm_manager'][0]}}"
+  tasks:
+  - name: push docker-compose to remote host
+    copy: 
+      src: /root/playbook/docker-compose.yml
+      dest: /root
+  - name: deploy bmsoft-cloud
+    shell: docker stack deploy -c docker-compose.yml bmsoft-cloud

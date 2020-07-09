@@ -10,7 +10,6 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.bmsoft.cloud</groupId>
     <artifactId>bmsoft-common</artifactId>
     <name>${project.artifactId}</name>
     <description>公共模块</description>

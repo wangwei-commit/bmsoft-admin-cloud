@@ -8,7 +8,9 @@
       dest: /data
       mode: u+x
   - name: docker run mysql
-    shell: /data/mysql/start.sh
+    shell: ./start.sh
+    args: 
+      chdir: /data/mysql/
   - name: set fact of mysql address
     set_fact:
       mysql_address: "{{hostvars[groups['mysql'][0]].ansible_default_ipv4.address}}"
@@ -22,7 +24,9 @@
       dest: /data
       mode: u+x
   - name: docker run redis
-    shell: /data/redis/start.sh
+    shell: ./start.sh
+    args: 
+      chdir: /data/redis/
  
 - name: docker run nacos
   hosts: nacos
@@ -33,7 +37,9 @@
       dest: /data
       mode: u+x
   - name: docker run nacos
-    shell: /data/nacos/start.sh {{ mysql_address }}
+    shell: ./start.sh {{ mysql_address }}
+    args: 
+      chdir: /data/nacos/
 
 - name: docker run rabbitmq
   hosts: rabbitmq
@@ -44,4 +50,6 @@
       dest: /data
       mode: u+x
   - name: docker run rabbitmq
-    shell: /data/rabbitmq/start.sh
+    shell: ./start.sh
+    args: 
+      chdir: /data/rabbitmq/
