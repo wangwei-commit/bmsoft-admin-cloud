@@ -36,8 +36,6 @@ import com.bmsoft.cloud.work.service.inventory.GroupHostService;
 import com.bmsoft.cloud.work.service.inventory.GroupParentService;
 import com.bmsoft.cloud.work.service.inventory.GroupService;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.NumberUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -101,18 +99,15 @@ public class GroupController
 
 	@Override
 	public void handlerWrapper(QueryWrap<Group> wrapper, PageParams<GroupPageDTO> params) {
-		if (CollUtil.isNotEmpty(params.getMap())) {
-			Map<String, String> map = params.getMap();
-			if (map.containsKey("parent") && NumberUtil.isLong(map.get("parent"))) {
-				Long parentId = Long.parseLong(map.get("parent"));
-				List<Long> childs = groupParentService
-						.list(Wraps.lbQ(GroupParent.builder().build()).eq(GroupParent::getToId, parentId)).stream()
-						.map(parent -> parent.getFromId()).collect(Collectors.toList());
-				if (childs.isEmpty()) {
-					wrapper.eq("id", -1L);
-				} else {
-					wrapper.in("id", childs);
-				}
+		if (params.getModel().getParent() != null) {
+			List<Long> childs = groupParentService
+					.list(Wraps.lbQ(GroupParent.builder().build()).eq(GroupParent::getToId,
+							params.getModel().getParent()))
+					.stream().map(parent -> parent.getFromId()).collect(Collectors.toList());
+			if (childs.isEmpty()) {
+				wrapper.eq("id", -1L);
+			} else {
+				wrapper.in("id", childs);
 			}
 		}
 		super.handlerWrapper(wrapper, params);

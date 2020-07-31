@@ -58,5 +58,10 @@ public class GroupPageDTO implements Serializable {
 	@ApiModelProperty(value = "名称")
 	@Length(max = 32, message = "名称长度不能超过32")
 	private String name;
+	/**
+	 * 父组ID
+	 */
+	@ApiModelProperty(value = "父组ID")
+	private Long parent;
 
 }

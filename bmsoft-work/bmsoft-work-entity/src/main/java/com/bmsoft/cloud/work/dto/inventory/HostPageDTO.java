@@ -60,5 +60,10 @@ public class HostPageDTO implements Serializable {
 	@NotEmpty(message = "名称不能为空")
 	@Length(max = 32, message = "名称长度不能超过32")
 	private String name;
+	/**
+	 * 组ID
+	 */
+	@ApiModelProperty(value = "组ID")
+	private Long group;
 
 }
