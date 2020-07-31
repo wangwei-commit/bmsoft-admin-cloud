@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>bmsoft-work</artifactId>
+        <groupId>com.bmsoft.cloud</groupId>
+        <version>c.2.3-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>bmsoft-work-controller</artifactId>
+    <name>${project.artifactId}</name>
+    <description>作业管理服务-控制器模块</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.bmsoft.cloud</groupId>
+            <artifactId>bmsoft-work-biz</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.bmsoft.cloud</groupId>
+            <artifactId>bmsoft-security-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.bmsoft.cloud</groupId>
+            <artifactId>bmsoft-log-starter</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+        </dependency>
+    </dependencies>
+
+
+</project>

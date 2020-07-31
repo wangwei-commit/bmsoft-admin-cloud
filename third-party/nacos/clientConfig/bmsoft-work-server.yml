@@ -1,0 +1,341 @@
+bmsoft:
+  swagger:
+    enabled: true
+    docket:
+      work:
+        title: 作业管理服务服务
+        base-package: com.bmsoft.cloud.work.controller
+  work:
+    type:
+      fields:
+        certificate: &certificate
+          field: certificate
+          display: 凭证
+          primary: true
+          is-multi: false
+        infoOut: &infoOut
+          field: infoOut
+          display: 信息输出
+          field-type: select
+          primary: false
+          data:
+          - key: 0
+            value: WARNING
+          - key: 1
+            value: INFO
+          - key: 2
+            value: DEBUG
+        updateItem: &updateItem
+          field: updateItem
+          display: 更新选项
+          field-type: checkbox
+          primary: false
+          data:
+          - key: overwrite
+            value: 覆盖
+          - key: overwrite_vars
+            value: 覆盖变量
+          - key: update_on_launch
+            value: 启动时更新
+        script: &script
+          field: script
+          display: 脚本
+          field-type: inventory-script
+          primary: true
+          is-multi: false
+        variable: &variable
+          field: variable
+          display: 环境变量
+          field-type: variable
+          primary: false
+        username: &username
+          field: username
+          display: 用户名
+          primary: true
+          field-type: text
+          len: 32
+        password: &password
+          field: password
+          display: 密码
+          primary: true
+          field-type: password
+          len: 32
+          is-pWRun: true
+        secret: &secret
+          field: secret
+          display: 私钥
+          primary: true
+          len: 128
+          field-type: multi-text
+      inventory-source:
+      - key: red_hat_satellite_6
+        display: Red Hat Satellite 6
+        fields:
+        - <<: *certificate
+        - <<: *infoOut
+        - <<: *updateItem
+        - <<: *variable
+      - key: red_hat_cloudForms
+        display: Red Hat CloudForms
+        fields:
+        - <<: *certificate
+        - <<: *infoOut
+        - <<: *updateItem
+        - <<: *variable
+      - key: openStack
+        display: OpenStack
+        fields:
+        - <<: *certificate
+        - <<: *infoOut
+        - <<: *updateItem
+        - <<: *variable
+      - key: red_hat_virualization
+        display: Red Hat Virualization
+        fields:
+        - <<: *certificate
+        - <<: *infoOut
+        - <<: *updateItem
+      - key: ansible_tower
+        display: Ansible Tower
+        fields:
+        - <<: *certificate
+        - <<: *infoOut
+        - <<: *updateItem
+      - key: custom
+        display: 自定义脚本
+        fields:
+        - <<: *certificate
+          primary: false
+        - <<: *script
+        - <<: *infoOut
+        - <<: *updateItem
+        - <<: *variable
+      certificate-type:
+      - key: machine
+        display: Machine
+        fields:
+        - <<: *username
+        - <<: *password
+        - <<: *password
+          field: secretPassword
+          display: 私钥密码
+        - field: upgradeType
+          display: 特权升级类型
+          primary: false
+          field-type: select
+          data:
+          - key: sudo
+            value: sudo
+          - key: su
+            value: su
+          - key: pbrun
+            value: pbrun
+          - key: pfexec
+            value: pfexec
+          - key: dzdo
+            value: dzdo
+          - key: pmrun
+            value: pmrun
+          - key: runas
+            value: runas
+          - key: enable
+            value: enable
+          - key: doas
+            value: doas
+        - <<: *username
+          field: upgradeUsername
+          display: 特权升级用户名
+        - <<: *password
+          field: upgradePassword
+          display: 特权升级密码
+        - <<: *password
+          field: vaultPassword
+          display: Vault密码
+          primary: false
+        - <<: *secret
+      - key: network
+        display: Network
+        fields:
+        - <<: *username
+        - <<: *password
+          is-pWRun: false
+        - field: options
+          display: 请设置
+          primary: false
+          field-type: checkbox
+          data:
+          - key: authorize
+            value: Authorize
+        - <<: *password
+          field: authorizePassword
+          display: 授权密码
+          is-pWRun: false
+        - <<: *secret
+      - key: source_control
+        display: Source Control
+        fields:
+        - <<: *username
+        - <<: *password
+          is-pWRun: false
+        - <<: *password
+          field: secretPassword
+          display: 私钥密码
+          is-pWRun: false
+        - <<: *secret
+          display: SCM 私钥
+      - key: amazon_web_services
+        display: Amazon Web Services
+        fields:
+        - <<: *username
+          field: accessSecret
+          display: 访问秘钥
+        - <<: *password
+          field: privateSecret
+          display: 私密秘钥
+          is-pWRun: false
+        - <<: *password
+          field: token
+          display: 安全令牌
+          primary: false
+          is-pWRun: false
+      - key: rackspace
+        display: Rackspace
+        fields:
+        - <<: *username
+        - <<: *password
+          field: apiKey
+          display: API KEY
+          is-pWRun: false
+      - key: vMware_vCenter
+        display: VMware vCenter
+        fields:
+        - <<: *username
+          field: host
+          display: 主机名
+        - <<: *username
+        - <<: *password
+          is-pWRun: false
+      - key: red_hat_satellite_6
+        display: Red Hat Satellite 6
+        fields:
+        - <<: *username
+          field: host
+          display: 主机名
+        - <<: *username
+        - <<: *password
+          is-pWRun: false
+      - key: red_hat_cloudForms
+        display: Red Hat CloudForms
+        fields:
+        - <<: *username
+          field: host
+          display: 主机名
+        - <<: *username
+        - <<: *password
+          is-pWRun: false
+      - key: google_compute_engine
+        display: Google Compute Engine
+        fields:
+        - <<: *username
+          field: email
+          display: 服务账号邮箱
+        - <<: *username
+          field: gceAuth
+          display: GCE 身份标识
+          primary: false
+        - <<: *secret
+          display: RSA私钥
+      - key: microsoft_azure_resource_manager
+        display: Microsoft Azure Resource Manager
+        fields:
+        - <<: *username
+          field: uuid
+          display: 账户的订阅UUID
+        - <<: *username
+          primary: false
+        - <<: *password
+          primary: false
+          is-pWRun: false
+        - <<: *username
+          field: clientId
+          display: 客户端ID
+          primary: false
+        - <<: *password
+          field: clientPassword
+          display: 客户端密码
+          primary: false
+          is-pWRun: false
+        - <<: *username
+          field: tenantId
+          display: 租户ID
+          primary: false
+      - key: openStack
+        display: OpenStack
+        fields:
+        - <<: *username
+          field: host
+          display: 认证主机
+        - <<: *username
+        - <<: *password
+          display: 密码(API Key)
+          is-pWRun: false
+        - <<: *username
+          field: tenant
+          display: 租户名称/ID
+          primary: false
+        - <<: *username
+          field: domain
+          display: Domain 名
+          primary: false
+      - key: ansible_tower
+        display: Ansible Tower
+        fields:
+        - <<: *username
+          field: host
+          display: Ansible Tower 主机名
+        - <<: *username
+        - <<: *password
+          is-pWRun: false
+        - field: options
+          display: 请设置
+          primary: false
+          field-type: checkbox
+          data:
+          - key: ssl
+            value: 验证SSL
+      - key: insights
+        display: Insights
+        fields:
+        - <<: *username
+        - <<: *password
+          is-pWRun: false
+      - key: red_hat_virtualization
+        display: Red Hat Virtualization
+        fields:
+        - <<: *username
+          field: host
+          display: 主机名(身份验证URL）
+        - <<: *username
+        - <<: *password
+          is-pWRun: false
+        - <<: *username
+          field: caPath
+          display: CA文件路径
+          primary: false
+      - key: vault
+        display: Vault
+        fields:
+        - <<: *password
+          display: Vault 密码
+        - <<: *username
+          field: identifier
+          display: Vault 标识符
+          primary: false
+      - key: custom
+        display: 自定义
+        fields:
+        - <<: *username
+        - <<: *password
+          is-pWRun: false
+server:
+  port: 8778
