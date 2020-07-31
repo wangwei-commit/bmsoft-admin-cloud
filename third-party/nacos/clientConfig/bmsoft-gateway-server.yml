@@ -75,6 +75,16 @@ spring:
               args:
                 name: default
                 fallbackUri: 'forward:/fallback'
+        - id: work
+          uri: lb://bmsoft-work-server
+          predicates:
+            - Path=/work/**
+          filters:
+            - StripPrefix=1
+            - name: Hystrix
+              args:
+                name: default
+                fallbackUri: 'forward:/fallback'
 
 filters:
   - name: Hystrix

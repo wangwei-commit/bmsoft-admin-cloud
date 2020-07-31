@@ -74,4 +74,16 @@ public abstract class InjectionFieldConstants {
      */
     public static final String STATION_ID_METHOD = "findStationByIds";
     public static final String STATION_ID_NAME_METHOD = "findStationNameByIds";
+
+    /**
+     * 凭证 查询方法
+     */
+	public static final String CERTIFICATE_ID_CLASS = "certificateServiceImpl";
+	public static final String CERTIFICATE_ID_NAME_METHOD = "findNameByIds";
+
+	/**
+	 * 清单 查询方法
+	 */
+	public static final String INVENTORY_ID_CLASS = "inventoryServiceImpl";
+	public static final String INVENTORY_ID_NAME_METHOD = "findNameByIds";
 }
