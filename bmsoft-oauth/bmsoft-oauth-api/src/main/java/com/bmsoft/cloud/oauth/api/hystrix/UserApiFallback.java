@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,4 +35,9 @@ public class UserApiFallback implements UserApi {
     public Map<Serializable, Object> findUserNameByIds(Set<Serializable> codes) {
         return Collections.emptyMap();
     }
+
+	@Override
+	public List<Long> getUserOrgIdChildById(Long id) {
+		return Collections.emptyList();
+	}
 }

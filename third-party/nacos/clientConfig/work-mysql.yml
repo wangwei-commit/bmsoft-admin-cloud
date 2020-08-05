@@ -1,0 +1,3 @@
+bmsoft:
+  database:
+    tenantDatabasePrefix: bmsoft_work

@@ -4,7 +4,6 @@ import static com.bmsoft.cloud.work.util.VariableUtil.VARIABLE_ERROR_CODE;
 import static com.bmsoft.cloud.work.util.VariableUtil.VARIABLE_ERROR_MESSAGE;
 import static com.bmsoft.cloud.work.util.VariableUtil.vaildVariable;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,14 +14,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bmsoft.cloud.authority.entity.auth.User;
-import com.bmsoft.cloud.authority.service.auth.UserService;
-import com.bmsoft.cloud.authority.service.core.OrgService;
 import com.bmsoft.cloud.base.R;
 import com.bmsoft.cloud.base.controller.SuperCacheController;
 import com.bmsoft.cloud.base.request.PageParams;
-import com.bmsoft.cloud.context.BaseContextHandler;
 import com.bmsoft.cloud.database.mybatis.conditions.query.QueryWrap;
+import com.bmsoft.cloud.work.common.CurrentUserOperate;
 import com.bmsoft.cloud.work.dto.inventory.InventoryPageDTO;
 import com.bmsoft.cloud.work.dto.inventory.InventorySaveDTO;
 import com.bmsoft.cloud.work.dto.inventory.InventoryUpdateDTO;
@@ -48,10 +44,7 @@ public class InventoryController extends
 		SuperCacheController<InventoryService, Long, Inventory, InventoryPageDTO, InventorySaveDTO, InventoryUpdateDTO> {
 
 	@Resource
-	private UserService userService;
-
-	@Resource
-	private OrgService orgService;
+	private CurrentUserOperate currentUserOperate;
 
 	@Override
 	public R<Inventory> handlerSave(InventorySaveDTO model) {
@@ -71,10 +64,7 @@ public class InventoryController extends
 
 	@Override
 	public void handlerWrapper(QueryWrap<Inventory> wrapper, PageParams<InventoryPageDTO> params) {
-		Long currenUserId = BaseContextHandler.getUserId();
-		User user = userService.getById(currenUserId);
-		wrapper.in(getDbField("org", getEntityClass()), orgService.findChildren(Arrays.asList(user.getOrg().getKey()))
-				.stream().map(org -> org.getId()).collect(Collectors.toList()));
+		currentUserOperate.setQueryWrapByOrg(wrapper, getDbField("org", getEntityClass()));
 		super.handlerWrapper(wrapper, params);
 	}
 

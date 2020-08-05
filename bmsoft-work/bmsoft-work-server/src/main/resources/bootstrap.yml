@@ -27,6 +27,8 @@ spring:
             refresh: true
           - dataId: rabbitmq.yml
             refresh: false
+          - dataId: work-mysql.yml
+            refresh: true
         enabled: true
       discovery:
         server-addr: ${bmsoft.nacos.ip}:${bmsoft.nacos.port}

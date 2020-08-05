@@ -3,7 +3,7 @@ package com.bmsoft.cloud.work.entity.inventory;
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.CERTIFICATE_ID_CLASS;
 import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.CERTIFICATE_ID_NAME_METHOD;
-import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.ORG_ID_CLASS;
+import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.ORG_ID_FEIGN_CLASS;
 import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.ORG_ID_NAME_METHOD;
 
 import java.time.LocalDateTime;
@@ -100,7 +100,7 @@ public class Inventory extends Entity<Long> {
 	@ApiModelProperty(value = "组织ID")
 	@NotNull(message = "组织ID不能为空")
 	@TableField("org_id")
-	@InjectionField(api = ORG_ID_CLASS, method = ORG_ID_NAME_METHOD)
+	@InjectionField(api = ORG_ID_FEIGN_CLASS, method = ORG_ID_NAME_METHOD)
 	@ExcelEntity(name = "")
 	@Excel(name = "组织ID")
 	private RemoteData<Long, String> org;

@@ -5,6 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -43,4 +44,7 @@ public interface UserApi {
      */
     @GetMapping("/findUserNameByIds")
     Map<Serializable, Object> findUserNameByIds(@RequestParam(value = "ids") Set<Serializable> ids);
+    
+    @RequestMapping(value = "/{id}/orgChild", method = RequestMethod.GET)
+    List<Long> getUserOrgIdChildById(@PathVariable("id") Long id);
 }

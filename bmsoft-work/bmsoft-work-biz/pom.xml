@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>com.bmsoft.cloud</groupId>
-            <artifactId>bmsoft-authority-biz</artifactId>
+            <artifactId>bmsoft-oauth-api</artifactId>
             <version>${bmsoft-project.version}</version>
         </dependency>
 

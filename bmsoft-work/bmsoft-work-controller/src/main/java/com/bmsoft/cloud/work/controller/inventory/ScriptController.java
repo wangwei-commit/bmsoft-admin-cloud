@@ -1,6 +1,5 @@
 package com.bmsoft.cloud.work.controller.inventory;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,14 +10,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bmsoft.cloud.authority.entity.auth.User;
-import com.bmsoft.cloud.authority.service.auth.UserService;
-import com.bmsoft.cloud.authority.service.core.OrgService;
 import com.bmsoft.cloud.base.R;
 import com.bmsoft.cloud.base.controller.SuperCacheController;
 import com.bmsoft.cloud.base.request.PageParams;
-import com.bmsoft.cloud.context.BaseContextHandler;
 import com.bmsoft.cloud.database.mybatis.conditions.query.QueryWrap;
+import com.bmsoft.cloud.work.common.CurrentUserOperate;
 import com.bmsoft.cloud.work.dto.inventory.ScriptPageDTO;
 import com.bmsoft.cloud.work.dto.inventory.ScriptSaveDTO;
 import com.bmsoft.cloud.work.dto.inventory.ScriptUpdateDTO;
@@ -48,10 +44,7 @@ public class ScriptController
 	private static final String SCRIPT_ERROR_MESSAGE = "脚本格式不正确，请以#!开始";
 
 	@Resource
-	private UserService userService;
-
-	@Resource
-	private OrgService orgService;
+	private CurrentUserOperate currentUserOperate;
 
 	@Override
 	public R<Script> handlerSave(ScriptSaveDTO model) {
@@ -75,10 +68,7 @@ public class ScriptController
 
 	@Override
 	public void handlerWrapper(QueryWrap<Script> wrapper, PageParams<ScriptPageDTO> params) {
-		Long currenUserId = BaseContextHandler.getUserId();
-		User user = userService.getById(currenUserId);
-		wrapper.in(getDbField("org", getEntityClass()), orgService.findChildren(Arrays.asList(user.getOrg().getKey()))
-				.stream().map(org -> org.getId()).collect(Collectors.toList()));
+		currentUserOperate.setQueryWrapByOrg(wrapper, getDbField("org", getEntityClass()));
 		super.handlerWrapper(wrapper, params);
 	}
 
