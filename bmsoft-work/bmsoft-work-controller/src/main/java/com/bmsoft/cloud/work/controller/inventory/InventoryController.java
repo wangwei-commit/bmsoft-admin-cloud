@@ -18,6 +18,7 @@ import com.bmsoft.cloud.base.R;
 import com.bmsoft.cloud.base.controller.SuperCacheController;
 import com.bmsoft.cloud.base.request.PageParams;
 import com.bmsoft.cloud.database.mybatis.conditions.query.QueryWrap;
+import com.bmsoft.cloud.security.annotation.PreAuth;
 import com.bmsoft.cloud.work.common.CurrentUserOperate;
 import com.bmsoft.cloud.work.dto.inventory.InventoryPageDTO;
 import com.bmsoft.cloud.work.dto.inventory.InventorySaveDTO;
@@ -39,7 +40,7 @@ import io.swagger.annotations.Api;;
 @RestController
 @RequestMapping("/inventory")
 @Api(value = "Inventory", tags = "清单")
-//@PreAuth(replace = "inventory:")
+@PreAuth(replace = "inventory:")
 public class InventoryController extends
 		SuperCacheController<InventoryService, Long, Inventory, InventoryPageDTO, InventorySaveDTO, InventoryUpdateDTO> {
 

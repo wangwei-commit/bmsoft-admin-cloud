@@ -11,6 +11,7 @@ bmsoft:
         certificate: &certificate
           field: certificate
           display: 凭证
+          field-type: certificate
           primary: true
           is-multi: false
         infoOut: &infoOut

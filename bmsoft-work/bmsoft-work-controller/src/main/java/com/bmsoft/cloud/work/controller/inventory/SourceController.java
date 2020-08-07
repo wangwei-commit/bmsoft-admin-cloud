@@ -42,7 +42,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/source")
 @Api(value = "Source", tags = "清单源")
-//@PreAuth(replace = "source:")
+@PreAuth(replace = "source:")
 public class SourceController
 		extends SuperCacheController<SourceService, Long, Source, SourcePageDTO, SourceSaveDTO, SourceUpdateDTO> {
 

@@ -14,6 +14,7 @@ import com.bmsoft.cloud.base.R;
 import com.bmsoft.cloud.base.controller.SuperCacheController;
 import com.bmsoft.cloud.base.request.PageParams;
 import com.bmsoft.cloud.database.mybatis.conditions.query.QueryWrap;
+import com.bmsoft.cloud.security.annotation.PreAuth;
 import com.bmsoft.cloud.work.common.CurrentUserOperate;
 import com.bmsoft.cloud.work.dto.inventory.ScriptPageDTO;
 import com.bmsoft.cloud.work.dto.inventory.ScriptSaveDTO;
@@ -35,7 +36,7 @@ import io.swagger.annotations.Api;
 @RestController
 @RequestMapping("/script")
 @Api(value = "Script", tags = "清单脚本")
-//@PreAuth(replace = "script:")
+@PreAuth(replace = "script:")
 public class ScriptController
 		extends SuperCacheController<ScriptService, Long, Script, ScriptPageDTO, ScriptSaveDTO, ScriptUpdateDTO> {
 

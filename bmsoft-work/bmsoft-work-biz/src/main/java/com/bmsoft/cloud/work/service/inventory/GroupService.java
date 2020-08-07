@@ -13,4 +13,5 @@ import com.bmsoft.cloud.work.entity.inventory.Group;
  */
 public interface GroupService extends SuperCacheService<Group> {
 
+	boolean saveAndParent(Group group, Long parent);
 }

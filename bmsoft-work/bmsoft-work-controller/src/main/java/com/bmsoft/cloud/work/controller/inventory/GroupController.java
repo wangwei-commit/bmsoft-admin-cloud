@@ -36,6 +36,7 @@ import com.bmsoft.cloud.work.service.inventory.GroupHostService;
 import com.bmsoft.cloud.work.service.inventory.GroupParentService;
 import com.bmsoft.cloud.work.service.inventory.GroupService;
 
+import cn.hutool.core.bean.BeanUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -53,7 +54,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/group")
 @Api(value = "Group", tags = "清单组")
-//@PreAuth(replace = "group:")
+@PreAuth(replace = "group:")
 public class GroupController
 		extends SuperCacheController<GroupService, Long, Group, GroupPageDTO, GroupSaveDTO, GroupUpdateDTO> {
 
@@ -65,13 +66,13 @@ public class GroupController
 
 	@Override
 	public R<Group> save(GroupSaveDTO saveDTO) {
-		R<Group> result = super.save(saveDTO);
-		if (result.getIsSuccess() && saveDTO.getParent() != null) {
-			GroupParent groupParent = GroupParent.builder().toId(saveDTO.getParent()).fromId(result.getData().getId())
-					.build();
-			groupParentService.save(groupParent);
-		}
-		return result;
+		R<Group> result = handlerSave(saveDTO);
+        if (result.getDefExec()) {
+        	Group group = BeanUtil.toBean(saveDTO, getEntityClass());
+        	baseService.saveAndParent(group, saveDTO.getParent());
+            result.setData(group);
+        }
+        return result;
 	}
 
 	@Override

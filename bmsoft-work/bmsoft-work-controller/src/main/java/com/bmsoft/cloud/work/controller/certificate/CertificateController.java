@@ -45,7 +45,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/certificate")
 @Api(value = "Certificate", tags = "凭证")
-//@PreAuth(replace = "certificate:")
+@PreAuth(replace = "certificate:")
 public class CertificateController extends
 		SuperCacheController<CertificateService, Long, Certificate, CertificatePageDTO, CertificateSaveDTO, CertificateUpdateDTO> {
 

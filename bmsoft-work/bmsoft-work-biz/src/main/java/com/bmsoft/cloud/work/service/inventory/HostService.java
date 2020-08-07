@@ -13,4 +13,5 @@ import com.bmsoft.cloud.work.entity.inventory.Host;
  */
 public interface HostService extends SuperCacheService<Host> {
 
+	boolean saveAndGroup(Host host, Long groupId);
 }

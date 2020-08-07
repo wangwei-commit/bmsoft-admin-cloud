@@ -14,6 +14,7 @@ import com.bmsoft.cloud.base.service.SuperCacheServiceImpl;
 import com.bmsoft.cloud.common.constant.CacheKey;
 import com.bmsoft.cloud.injection.annonation.InjectionResult;
 import com.bmsoft.cloud.work.dao.inventory.HostMapper;
+import com.bmsoft.cloud.work.entity.inventory.GroupHost;
 import com.bmsoft.cloud.work.entity.inventory.Host;
 import com.bmsoft.cloud.work.service.inventory.GroupHostService;
 import com.bmsoft.cloud.work.service.inventory.HostService;
@@ -31,7 +32,7 @@ public class HostServiceImpl extends SuperCacheServiceImpl<HostMapper, Host> imp
 
 	@Resource
 	private GroupHostService groupHostService;
-	
+
 	@Override
 	protected String getRegion() {
 		return CacheKey.INVENTORY_HOST;
@@ -43,10 +44,20 @@ public class HostServiceImpl extends SuperCacheServiceImpl<HostMapper, Host> imp
 		groupHostService.removeByHost(idList);
 		return super.removeByIds(idList);
 	}
-	
+
 	@Override
 	@InjectionResult
 	public <E extends IPage<Host>> E page(E page, Wrapper<Host> queryWrapper) {
 		return super.page(page, queryWrapper);
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean saveAndGroup(Host host, Long groupId) {
+		if (groupId != null) {
+			GroupHost groupHost = GroupHost.builder().groupId(groupId).hostId(host.getId()).build();
+			groupHostService.save(groupHost);
+		}
+		return super.save(host);
 	}
 }

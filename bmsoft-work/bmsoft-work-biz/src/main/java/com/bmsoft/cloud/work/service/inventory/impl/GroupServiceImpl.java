@@ -12,6 +12,7 @@ import com.bmsoft.cloud.base.service.SuperCacheServiceImpl;
 import com.bmsoft.cloud.common.constant.CacheKey;
 import com.bmsoft.cloud.work.dao.inventory.GroupMapper;
 import com.bmsoft.cloud.work.entity.inventory.Group;
+import com.bmsoft.cloud.work.entity.inventory.GroupParent;
 import com.bmsoft.cloud.work.service.inventory.GroupHostService;
 import com.bmsoft.cloud.work.service.inventory.GroupParentService;
 import com.bmsoft.cloud.work.service.inventory.GroupService;
@@ -29,7 +30,7 @@ public class GroupServiceImpl extends SuperCacheServiceImpl<GroupMapper, Group> 
 
 	@Resource
 	private GroupParentService groupParentService;
-	
+
 	@Resource
 	private GroupHostService groupHostService;
 
@@ -44,6 +45,16 @@ public class GroupServiceImpl extends SuperCacheServiceImpl<GroupMapper, Group> 
 		groupParentService.removeByGroupIds(idList);
 		groupHostService.removeByGroup(idList);
 		return super.removeByIds(idList);
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean saveAndParent(Group group, Long parent) {
+		if (parent != null) {
+			GroupParent groupParent = GroupParent.builder().toId(parent).fromId(group.getId()).build();
+			groupParentService.save(groupParent);
+		}
+		return super.save(group);
 	}
 
 }

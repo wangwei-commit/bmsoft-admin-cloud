@@ -32,6 +32,7 @@ import com.bmsoft.cloud.work.entity.inventory.Host;
 import com.bmsoft.cloud.work.service.inventory.GroupHostService;
 import com.bmsoft.cloud.work.service.inventory.HostService;
 
+import cn.hutool.core.bean.BeanUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -49,7 +50,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/host")
 @Api(value = "Host", tags = "清单主机")
-//@PreAuth(replace = "host:")
+@PreAuth(replace = "host:")
 public class HostController
 		extends SuperCacheController<HostService, Long, Host, HostPageDTO, HostSaveDTO, HostUpdateDTO> {
 
@@ -58,13 +59,13 @@ public class HostController
 
 	@Override
 	public R<Host> save(HostSaveDTO saveDTO) {
-		R<Host> result = super.save(saveDTO);
-		if (result.getIsSuccess() && saveDTO.getGroupId() != null) {
-			GroupHost groupHost = GroupHost.builder().groupId(saveDTO.getGroupId()).hostId(result.getData().getId())
-					.build();
-			groupHostService.save(groupHost);
-		}
-		return result;
+		R<Host> result = handlerSave(saveDTO);
+        if (result.getDefExec()) {
+        	Host host = BeanUtil.toBean(saveDTO, getEntityClass());
+        	baseService.saveAndGroup(host, saveDTO.getGroupId());
+            result.setData(host);
+        }
+        return result;
 	}
 
 	@Override
