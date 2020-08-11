@@ -42,6 +42,6 @@ public class SourceServiceImpl extends SuperCacheServiceImpl<SourceMapper, Sourc
 	@Override
 	public List<TypeField> getTypeFieldByType(String type) {
 		return getSourceTypeList().stream().filter(sourceType -> sourceType.getKey().equals(type))
-				.map(sourceType -> sourceType.getFields()).findFirst().orElse(null);
+				.findFirst().map(Type::getFields).orElse(null);
 	}
 }

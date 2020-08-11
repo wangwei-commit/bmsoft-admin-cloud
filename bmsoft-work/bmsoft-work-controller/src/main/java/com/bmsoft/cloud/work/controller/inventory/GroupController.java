@@ -1,8 +1,8 @@
 package com.bmsoft.cloud.work.controller.inventory;
 
-import static com.bmsoft.cloud.work.util.VariableUtil.VARIABLE_ERROR_CODE;
-import static com.bmsoft.cloud.work.util.VariableUtil.VARIABLE_ERROR_MESSAGE;
-import static com.bmsoft.cloud.work.util.VariableUtil.vaildVariable;
+import static com.bmsoft.cloud.work.util.VariableUtil.handler;
+import static com.bmsoft.cloud.common.constant.CacheKey.GROUP_LOCK;
+import static com.bmsoft.cloud.common.constant.CacheKey.GROUP_HOST_LOCK;
 
 import java.util.List;
 import java.util.Map;
@@ -23,6 +23,7 @@ import com.bmsoft.cloud.base.controller.SuperCacheController;
 import com.bmsoft.cloud.base.request.PageParams;
 import com.bmsoft.cloud.database.mybatis.conditions.Wraps;
 import com.bmsoft.cloud.database.mybatis.conditions.query.QueryWrap;
+import com.bmsoft.cloud.lock.DistributedLock;
 import com.bmsoft.cloud.log.annotation.SysLog;
 import com.bmsoft.cloud.model.RemoteData;
 import com.bmsoft.cloud.security.annotation.PreAuth;
@@ -64,31 +65,32 @@ public class GroupController
 	@Resource
 	private GroupHostService groupHostService;
 
+	@Resource
+	private DistributedLock distributedLock;
+	
 	@Override
 	public R<Group> save(GroupSaveDTO saveDTO) {
 		R<Group> result = handlerSave(saveDTO);
-        if (result.getDefExec()) {
-        	Group group = BeanUtil.toBean(saveDTO, getEntityClass());
-        	baseService.saveAndParent(group, saveDTO.getParent());
-            result.setData(group);
-        }
-        return result;
+		if (result.getDefExec()) {
+			Group group = BeanUtil.toBean(saveDTO, getEntityClass());
+			baseService.saveAndParent(group, saveDTO.getParent());
+			result.setData(group);
+		}
+		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public R<Group> handlerSave(GroupSaveDTO model) {
-		if (!vaildVariable(model.getVariableType(), model.getVariableValue())) {
-			return R.fail(VARIABLE_ERROR_CODE, VARIABLE_ERROR_MESSAGE);
-		}
-		return super.handlerSave(model);
+		return handler(model.getVariableType(), model.getVariableValue(), model,
+				dto -> super.handlerSave((GroupSaveDTO) dto));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public R<Group> handlerUpdate(GroupUpdateDTO model) {
-		if (!vaildVariable(model.getVariableType(), model.getVariableValue())) {
-			return R.fail(VARIABLE_ERROR_CODE, VARIABLE_ERROR_MESSAGE);
-		}
-		return super.handlerUpdate(model);
+		return handler(model.getVariableType(), model.getVariableValue(), model,
+				dto -> super.handlerUpdate((GroupUpdateDTO) dto));
 	}
 
 	@Override
@@ -104,7 +106,7 @@ public class GroupController
 			List<Long> childs = groupParentService
 					.list(Wraps.lbQ(GroupParent.builder().build()).eq(GroupParent::getToId,
 							params.getModel().getParent()))
-					.stream().map(parent -> parent.getFromId()).collect(Collectors.toList());
+					.stream().map(GroupParent::getFromId).collect(Collectors.toList());
 			if (childs.isEmpty()) {
 				wrapper.eq("id", -1L);
 			} else {
@@ -124,9 +126,10 @@ public class GroupController
 	@PreAuth("hasPermit('{}addChild')")
 	public R<Boolean> addChild(@RequestParam("inventoryId") Long inventoryId, @RequestParam("toId") Long toId,
 			@RequestParam("fromIds[]") List<Long> fromIds) {
+		distributedLock.lock(GROUP_LOCK + inventoryId);
 		List<Group> groupList = baseService
 				.list(Wraps.lbQ(Group.builder().build()).eq(Group::getInventory, new RemoteData<>(toId)));
-		List<Long> groupIds = groupList.stream().map(group -> group.getId()).collect(Collectors.toList());
+		List<Long> groupIds = groupList.stream().map(Group::getId).collect(Collectors.toList());
 		List<GroupParent> parentList = groupParentService
 				.list(Wraps.lbQ(GroupParent.builder().build()).in(GroupParent::getFromId, groupIds));
 		List<Long> addFromIds = fromIds.stream()
@@ -138,7 +141,9 @@ public class GroupController
 		}
 		List<GroupParent> addParentList = addFromIds.stream()
 				.map(fromId -> GroupParent.builder().fromId(fromId).toId(toId).build()).collect(Collectors.toList());
-		return success(groupParentService.saveBatchSomeColumn(addParentList));
+		R<Boolean> result = success(groupParentService.saveBatchSomeColumn(addParentList));
+		distributedLock.releaseLock(GROUP_LOCK + inventoryId);
+		return result;
 	}
 
 	@ApiOperation(value = "删除子组")
@@ -160,13 +165,16 @@ public class GroupController
 	@SysLog("'新增主机:' + #hostIds + ',组:' + #groupId")
 	@PreAuth("hasPermit('{}addHost')")
 	public R<Boolean> addHost(@RequestParam("groupId") Long groupId, @RequestParam("hostIds[]") List<Long> hostIds) {
+		distributedLock.lock(GROUP_HOST_LOCK);
 		List<Long> groupHostIds = groupHostService
 				.list(Wraps.lbQ(GroupHost.builder().build()).eq(GroupHost::getGroupId, groupId)).stream()
-				.map(groupHost -> groupHost.getHostId()).collect(Collectors.toList());
+				.map(GroupHost::getHostId).collect(Collectors.toList());
 		List<GroupHost> addList = hostIds.stream().filter(hostId -> !groupHostIds.contains(hostId))
 				.map(hostId -> GroupHost.builder().hostId(hostId).groupId(groupId).build())
 				.collect(Collectors.toList());
-		return success(groupHostService.saveBatchSomeColumn(addList));
+		R<Boolean> result = success(groupHostService.saveBatchSomeColumn(addList));
+		distributedLock.releaseLock(GROUP_HOST_LOCK);
+		return result;
 	}
 
 	@ApiOperation(value = "删除主机")

@@ -90,6 +90,6 @@ public class CertificateServiceImpl extends SuperCacheServiceImpl<CertificateMap
 	@Override
 	public List<TypeField> getTypeFieldByType(String type) {
 		return getTypeList().stream().filter(certificateType -> certificateType.getKey().equals(type))
-				.map(certificateType -> certificateType.getFields()).findFirst().orElse(null);
+				.findFirst().map(Type::getFields).orElse(null);
 	}
 }

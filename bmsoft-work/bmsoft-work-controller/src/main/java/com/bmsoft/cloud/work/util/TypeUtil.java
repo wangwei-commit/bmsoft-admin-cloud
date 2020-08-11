@@ -4,8 +4,10 @@ import static com.bmsoft.cloud.work.util.VariableUtil.VARIABLE_ERROR_CODE;
 import static com.bmsoft.cloud.work.util.VariableUtil.VARIABLE_ERROR_MESSAGE;
 import static com.bmsoft.cloud.work.util.VariableUtil.vaildVariable;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import com.bmsoft.cloud.base.R;
 import com.bmsoft.cloud.work.enumeration.inventory.VariableType;
@@ -55,5 +57,14 @@ public class TypeUtil {
 			}
 		}
 		return null;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static R handler(Map<String, Object> typeDetails, List<TypeField> fields, Serializable dto, Function<Serializable, R> function) {
+		R r = vaildType(typeDetails, fields);
+		if (r != null) {
+			return r;
+		}
+		return function.apply(dto);
 	}
 }

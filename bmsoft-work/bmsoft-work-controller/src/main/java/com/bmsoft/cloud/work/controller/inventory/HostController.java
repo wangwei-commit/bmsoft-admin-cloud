@@ -1,8 +1,7 @@
 package com.bmsoft.cloud.work.controller.inventory;
 
-import static com.bmsoft.cloud.work.util.VariableUtil.VARIABLE_ERROR_CODE;
-import static com.bmsoft.cloud.work.util.VariableUtil.VARIABLE_ERROR_MESSAGE;
-import static com.bmsoft.cloud.work.util.VariableUtil.vaildVariable;
+import static com.bmsoft.cloud.common.constant.CacheKey.GROUP_HOST_LOCK;
+import static com.bmsoft.cloud.work.util.VariableUtil.handler;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,7 @@ import com.bmsoft.cloud.base.controller.SuperCacheController;
 import com.bmsoft.cloud.base.request.PageParams;
 import com.bmsoft.cloud.database.mybatis.conditions.Wraps;
 import com.bmsoft.cloud.database.mybatis.conditions.query.QueryWrap;
+import com.bmsoft.cloud.lock.DistributedLock;
 import com.bmsoft.cloud.log.annotation.SysLog;
 import com.bmsoft.cloud.security.annotation.PreAuth;
 import com.bmsoft.cloud.work.dto.inventory.HostPageDTO;
@@ -57,31 +57,32 @@ public class HostController
 	@Resource
 	private GroupHostService groupHostService;
 
+	@Resource
+	private DistributedLock distributedLock;
+
 	@Override
 	public R<Host> save(HostSaveDTO saveDTO) {
 		R<Host> result = handlerSave(saveDTO);
-        if (result.getDefExec()) {
-        	Host host = BeanUtil.toBean(saveDTO, getEntityClass());
-        	baseService.saveAndGroup(host, saveDTO.getGroupId());
-            result.setData(host);
-        }
-        return result;
+		if (result.getDefExec()) {
+			Host host = BeanUtil.toBean(saveDTO, getEntityClass());
+			baseService.saveAndGroup(host, saveDTO.getGroupId());
+			result.setData(host);
+		}
+		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public R<Host> handlerSave(HostSaveDTO model) {
-		if (!vaildVariable(model.getVariableType(), model.getVariableValue())) {
-			return R.fail(VARIABLE_ERROR_CODE, VARIABLE_ERROR_MESSAGE);
-		}
-		return super.handlerSave(model);
+		return handler(model.getVariableType(), model.getVariableValue(), model,
+				dto -> super.handlerSave((HostSaveDTO) dto));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public R<Host> handlerUpdate(HostUpdateDTO model) {
-		if (!vaildVariable(model.getVariableType(), model.getVariableValue())) {
-			return R.fail(VARIABLE_ERROR_CODE, VARIABLE_ERROR_MESSAGE);
-		}
-		return super.handlerUpdate(model);
+		return handler(model.getVariableType(), model.getVariableValue(), model,
+				dto -> super.handlerUpdate((HostUpdateDTO) dto));
 	}
 
 	@Override
@@ -90,7 +91,7 @@ public class HostController
 			List<Long> hostIds = groupHostService
 					.list(Wraps.lbQ(GroupHost.builder().build()).eq(GroupHost::getGroupId,
 							params.getModel().getGroup()))
-					.stream().map(parent -> parent.getHostId()).collect(Collectors.toList());
+					.stream().map(GroupHost::getHostId).collect(Collectors.toList());
 			if (hostIds.isEmpty()) {
 				wrapper.eq("id", -1L);
 			} else {
@@ -108,13 +109,16 @@ public class HostController
 	@SysLog("'新增组:' + #groupIds + ',主机:' + #hostId")
 	@PreAuth("hasPermit('{}addGroup')")
 	public R<Boolean> addGroup(@RequestParam("hostId") Long hostId, @RequestParam("groupIds[]") List<Long> groupIds) {
+		distributedLock.lock(GROUP_HOST_LOCK);
 		List<Long> groupHostIds = groupHostService
 				.list(Wraps.lbQ(GroupHost.builder().build()).eq(GroupHost::getHostId, hostId)).stream()
-				.map(groupHost -> groupHost.getGroupId()).collect(Collectors.toList());
+				.map(GroupHost::getGroupId).collect(Collectors.toList());
 		List<GroupHost> addList = groupIds.stream().filter(groupId -> !groupHostIds.contains(groupId))
 				.map(groupId -> GroupHost.builder().hostId(hostId).groupId(groupId).build())
 				.collect(Collectors.toList());
-		return success(groupHostService.saveBatchSomeColumn(addList));
+		R<Boolean> result = success(groupHostService.saveBatchSomeColumn(addList));
+		distributedLock.releaseLock(GROUP_HOST_LOCK);
+		return result;
 	}
 
 	@ApiOperation(value = "删除组")

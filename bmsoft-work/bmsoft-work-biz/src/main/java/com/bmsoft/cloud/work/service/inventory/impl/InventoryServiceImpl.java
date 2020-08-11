@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -76,17 +77,18 @@ public class InventoryServiceImpl extends SuperCacheServiceImpl<InventoryMapper,
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean removeByIds(Collection<? extends Serializable> idList) {
 		List<RemoteData> inventoryIdList = idList.stream().map(id -> new RemoteData(id)).collect(Collectors.toList());
 		groupService.removeByIds(
 				groupService.list(Wraps.lbQ(Group.builder().build()).in(Group::getInventory, inventoryIdList)).stream()
-						.map(group -> group.getId()).collect(Collectors.toList()));
+						.map(Group::getId).collect(Collectors.toList()));
 		hostService
 				.removeByIds(hostService.list(Wraps.lbQ(Host.builder().build()).in(Host::getInventory, inventoryIdList))
-						.stream().map(host -> host.getId()).collect(Collectors.toList()));
+						.stream().map(Host::getId).collect(Collectors.toList()));
 		sourceService.removeByIds(
 				sourceService.list(Wraps.lbQ(Source.builder().build()).in(Source::getInventory, inventoryIdList))
-						.stream().map(source -> source.getId()).collect(Collectors.toList()));
+						.stream().map(Source::getId).collect(Collectors.toList()));
 		return super.removeByIds(idList);
 	}
 

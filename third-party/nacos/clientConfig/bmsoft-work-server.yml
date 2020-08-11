@@ -5,6 +5,8 @@ bmsoft:
       work:
         title: 作业管理服务服务
         base-package: com.bmsoft.cloud.work.controller
+  cache:
+    type: REDIS
   work:
     type:
       fields:

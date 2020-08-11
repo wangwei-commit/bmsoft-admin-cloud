@@ -1,6 +1,6 @@
 package com.bmsoft.cloud.work.controller.certificate;
 
-import static com.bmsoft.cloud.work.util.TypeUtil.vaildType;
+import static com.bmsoft.cloud.work.util.TypeUtil.handler;
 
 import java.util.List;
 import java.util.Map;
@@ -29,6 +29,7 @@ import com.bmsoft.cloud.work.properties.TypeProperties.Type;
 import com.bmsoft.cloud.work.properties.TypeProperties.TypeField;
 import com.bmsoft.cloud.work.service.certificate.CertificateService;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -52,28 +53,22 @@ public class CertificateController extends
 	@Resource
 	private CurrentUserOperate currentUserOperate;
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings("unchecked")
 	@Override
 	public R<Certificate> handlerUpdate(CertificateUpdateDTO model) {
-		if (StrUtil.isNotBlank(model.getType())) {
-			R r = vaildType(model.getTypeDetails(), baseService.getTypeFieldByType(model.getType()));
-			if (r != null) {
-				return r;
-			}
-		}
-		return super.handlerUpdate(model);
+		return handler(model.getTypeDetails(),
+				StrUtil.isNotBlank(model.getType()) ? baseService.getTypeFieldByType(model.getType())
+						: ListUtil.empty(),
+				model, dto -> super.handlerUpdate((CertificateUpdateDTO) dto));
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings("unchecked")
 	@Override
 	public R<Certificate> handlerSave(CertificateSaveDTO model) {
-		if (StrUtil.isNotBlank(model.getType())) {
-			R r = vaildType(model.getTypeDetails(), baseService.getTypeFieldByType(model.getType()));
-			if (r != null) {
-				return r;
-			}
-		}
-		return super.handlerSave(model);
+		return handler(model.getTypeDetails(),
+				StrUtil.isNotBlank(model.getType()) ? baseService.getTypeFieldByType(model.getType())
+						: ListUtil.empty(),
+				model, dto -> super.handlerSave((CertificateSaveDTO) dto));
 	}
 
 	@Override

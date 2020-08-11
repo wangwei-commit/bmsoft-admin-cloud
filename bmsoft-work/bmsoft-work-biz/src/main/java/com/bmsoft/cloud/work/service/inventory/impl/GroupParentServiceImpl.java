@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.bmsoft.cloud.base.service.SuperServiceImpl;
@@ -25,12 +26,14 @@ public class GroupParentServiceImpl extends SuperServiceImpl<GroupParentMapper, 
 		implements GroupParentService {
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean removeByGroupIds(Collection<? extends Serializable> idList) {
 		return SqlHelper.retBool(baseMapper.delete(Wraps.lbQ(GroupParent.builder().build())
 				.in(GroupParent::getFromId, idList).or().in(GroupParent::getToId, idList)));
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean removeFromByTo(Serializable toId, Collection<? extends Serializable> fromList) {
 		return SqlHelper.retBool(baseMapper.delete(Wraps.lbQ(GroupParent.builder().build())
 				.eq(GroupParent::getToId, toId).in(GroupParent::getFromId, fromList)));

@@ -1,8 +1,6 @@
 package com.bmsoft.cloud.work.controller.inventory;
 
-import static com.bmsoft.cloud.work.util.VariableUtil.VARIABLE_ERROR_CODE;
-import static com.bmsoft.cloud.work.util.VariableUtil.VARIABLE_ERROR_MESSAGE;
-import static com.bmsoft.cloud.work.util.VariableUtil.vaildVariable;
+import static com.bmsoft.cloud.work.util.VariableUtil.handler;
 
 import java.util.List;
 import java.util.Map;
@@ -47,20 +45,18 @@ public class InventoryController extends
 	@Resource
 	private CurrentUserOperate currentUserOperate;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public R<Inventory> handlerSave(InventorySaveDTO model) {
-		if (!vaildVariable(model.getVariableType(), model.getVariableValue())) {
-			return R.fail(VARIABLE_ERROR_CODE, VARIABLE_ERROR_MESSAGE);
-		}
-		return super.handlerSave(model);
+		return handler(model.getVariableType(), model.getVariableValue(), model,
+				dto -> super.handlerSave((InventorySaveDTO) dto));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public R<Inventory> handlerUpdate(InventoryUpdateDTO model) {
-		if (!vaildVariable(model.getVariableType(), model.getVariableValue())) {
-			return R.fail(VARIABLE_ERROR_CODE, VARIABLE_ERROR_MESSAGE);
-		}
-		return super.handlerUpdate(model);
+		return handler(model.getVariableType(), model.getVariableValue(), model,
+				dto -> super.handlerUpdate((InventoryUpdateDTO) dto));
 	}
 
 	@Override

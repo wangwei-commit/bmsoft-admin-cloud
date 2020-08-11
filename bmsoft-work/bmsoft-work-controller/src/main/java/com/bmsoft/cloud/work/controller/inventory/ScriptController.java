@@ -1,7 +1,9 @@
 package com.bmsoft.cloud.work.controller.inventory;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -49,22 +51,19 @@ public class ScriptController
 
 	@Override
 	public R<Script> handlerSave(ScriptSaveDTO model) {
-		if (!vaildScript(model.getScript())) {
-			return R.fail(SCRIPT_ERROR_CODE, SCRIPT_ERROR_MESSAGE);
-		}
-		return super.handlerSave(model);
+		return handler(model.getScript(), model, dto -> super.handlerSave((ScriptSaveDTO) dto));
 	}
 
 	@Override
 	public R<Script> handlerUpdate(ScriptUpdateDTO model) {
-		if (!vaildScript(model.getScript())) {
-			return R.fail(SCRIPT_ERROR_CODE, SCRIPT_ERROR_MESSAGE);
-		}
-		return super.handlerUpdate(model);
+		return handler(model.getScript(), model, dto -> super.handlerUpdate((ScriptUpdateDTO) dto));
 	}
 
-	private boolean vaildScript(String script) {
-		return script.startsWith("#!");
+	private R<Script> handler(String script, Serializable dto, Function<Serializable, R<Script>> function) {
+		if (!script.startsWith("#!")) {
+			return R.fail(SCRIPT_ERROR_CODE, SCRIPT_ERROR_MESSAGE);
+		}
+		return function.apply(dto);
 	}
 
 	@Override

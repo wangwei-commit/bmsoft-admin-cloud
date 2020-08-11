@@ -1,9 +1,12 @@
 package com.bmsoft.cloud.work.util;
 
+import java.io.Serializable;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.yaml.snakeyaml.Yaml;
 
+import com.bmsoft.cloud.base.R;
 import com.bmsoft.cloud.work.enumeration.inventory.VariableType;
 
 import cn.hutool.core.util.StrUtil;
@@ -42,6 +45,14 @@ public class VariableUtil {
 			return false;
 		}
 		return true;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static R handler(VariableType type, String value, Serializable dto, Function<Serializable, R> function) {
+		if (!vaildVariable(type, value)) {
+			return R.fail(VARIABLE_ERROR_CODE, VARIABLE_ERROR_MESSAGE);
+		}
+		return function.apply(dto);
 	}
 	
 }

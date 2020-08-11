@@ -50,11 +50,12 @@ public class GroupServiceImpl extends SuperCacheServiceImpl<GroupMapper, Group> 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean saveAndParent(Group group, Long parent) {
+		boolean result = super.save(group);
 		if (parent != null) {
 			GroupParent groupParent = GroupParent.builder().toId(parent).fromId(group.getId()).build();
 			groupParentService.save(groupParent);
 		}
-		return super.save(group);
+		return result;
 	}
 
 }

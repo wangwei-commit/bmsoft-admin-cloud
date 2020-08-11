@@ -54,10 +54,11 @@ public class HostServiceImpl extends SuperCacheServiceImpl<HostMapper, Host> imp
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean saveAndGroup(Host host, Long groupId) {
+		boolean result = super.save(host);
 		if (groupId != null) {
 			GroupHost groupHost = GroupHost.builder().groupId(groupId).hostId(host.getId()).build();
 			groupHostService.save(groupHost);
 		}
-		return super.save(host);
+		return result;
 	}
 }

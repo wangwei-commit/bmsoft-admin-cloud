@@ -1,6 +1,6 @@
 package com.bmsoft.cloud.work.controller.inventory;
 
-import static com.bmsoft.cloud.work.util.TypeUtil.vaildType;
+import static com.bmsoft.cloud.work.util.TypeUtil.handler;
 
 import java.util.List;
 import java.util.Map;
@@ -26,6 +26,7 @@ import com.bmsoft.cloud.work.properties.TypeProperties.Type;
 import com.bmsoft.cloud.work.properties.TypeProperties.TypeField;
 import com.bmsoft.cloud.work.service.inventory.SourceService;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,28 +47,22 @@ import io.swagger.annotations.ApiOperation;
 public class SourceController
 		extends SuperCacheController<SourceService, Long, Source, SourcePageDTO, SourceSaveDTO, SourceUpdateDTO> {
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	@Override
 	public R<Source> handlerUpdate(SourceUpdateDTO model) {
-		if(StrUtil.isNotBlank(model.getSource())) {
-			R r = vaildType(model.getSourceDetails(), baseService.getTypeFieldByType(model.getSource()));
-			if (r != null) {
-				return r;
-			}
-		}
-		return super.handlerUpdate(model);
+		return handler(model.getSourceDetails(),
+				StrUtil.isNotBlank(model.getSource()) ? baseService.getTypeFieldByType(model.getSource())
+						: ListUtil.empty(),
+				model, dto -> super.handlerUpdate((SourceUpdateDTO) dto));
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	@Override
 	public R<Source> handlerSave(SourceSaveDTO model) {
-		if(StrUtil.isNotBlank(model.getSource())) {
-			R r = vaildType(model.getSourceDetails(), baseService.getTypeFieldByType(model.getSource()));
-			if (r != null) {
-				return r;
-			}
-		}
-		return super.handlerSave(model);
+		return handler(model.getSourceDetails(),
+				StrUtil.isNotBlank(model.getSource()) ? baseService.getTypeFieldByType(model.getSource())
+						: ListUtil.empty(),
+				model, dto -> super.handlerSave((SourceSaveDTO) dto));
 	}
 
 	@Override

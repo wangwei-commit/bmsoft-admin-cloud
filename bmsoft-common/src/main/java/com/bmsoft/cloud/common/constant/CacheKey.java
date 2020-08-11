@@ -206,6 +206,10 @@ public interface CacheKey {
     String INVENTORY_SOURCE = "inventory_source";
     
     String CERTIFICATE = "certificate";
+    
+    String GROUP_LOCK = "inventory_group_lock";
+    
+    String GROUP_HOST_LOCK = "inventory_group_host_lock";
     /**
      * 构建key
      *
