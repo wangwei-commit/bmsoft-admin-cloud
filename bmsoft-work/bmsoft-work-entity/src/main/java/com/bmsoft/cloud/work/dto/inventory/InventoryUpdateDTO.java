@@ -6,6 +6,7 @@ import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.ORG_ID_FE
 import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.ORG_ID_NAME_METHOD;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -85,7 +86,7 @@ public class InventoryUpdateDTO implements Serializable {
 	 */
 	@ApiModelProperty(value = "凭证ID")
 	@InjectionField(api = CERTIFICATE_ID_CLASS, method = CERTIFICATE_ID_NAME_METHOD)
-	private RemoteData<Long, String> certificate;
+	private List<RemoteData<Long, String>> certificates;
 	/**
 	 * 变量类型 #VariableType{YAML:yaml;JSON:json}
 	 */

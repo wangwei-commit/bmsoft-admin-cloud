@@ -1,6 +1,5 @@
 package com.bmsoft.cloud.work.service.certificate.impl;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -56,12 +55,12 @@ public class CertificateServiceImpl extends SuperCacheServiceImpl<CertificateMap
 	}
 
 	@Override
-	public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
+	public Map<Long, String> findNameByIds(Set<Long> ids) {
 		List<Certificate> list = getCertificates(ids);
 		return MapHelper.uniqueIndex(list, Certificate::getId, Certificate::getName);
 	}
 
-	private List<Certificate> getCertificates(Set<Serializable> ids) {
+	private List<Certificate> getCertificates(Set<Long> ids) {
 		if (ids.isEmpty()) {
 			return Collections.emptyList();
 		}

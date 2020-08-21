@@ -28,7 +28,7 @@ CREATE TABLE `inventory`  (
   `description` varchar(128) NULL DEFAULT NULL COMMENT '描述',
   `syn_status` varchar(10) NOT NULL COMMENT '同步状态\r\n#SynStatus{NORMAL:正常;FAILURE:失败;UNKNOWN:未知}',
   `org_id` bigint(20) NOT NULL COMMENT '组织ID\r\n@InjectionField(api = ORG_ID_FEIGN_CLASS, method = ORG_ID_NAME_METHOD) RemoteData<Long, String>',
-  `certificate_id` bigint(20) NULL DEFAULT NULL COMMENT '凭证ID\r\n@InjectionField(api = CERTIFICATE_ID_CLASS, method = CERTIFICATE_ID_NAME_METHOD) RemoteData<Long, String>',
+  `certificate_ids` json NULL DEFAULT NULL COMMENT '凭证ID\r\n@InjectionField(api = CERTIFICATE_ID_CLASS, method = CERTIFICATE_ID_NAME_METHOD) RemoteData<Long, String>',
   `variable_type` varchar(10) NULL DEFAULT NULL COMMENT '变量类型\r\n#VariableType{YAML:yaml;JSON:json}',
   `variable_value` text NULL COMMENT '变量值',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',

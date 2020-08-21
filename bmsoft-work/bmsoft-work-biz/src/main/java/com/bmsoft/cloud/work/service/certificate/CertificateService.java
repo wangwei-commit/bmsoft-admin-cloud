@@ -1,6 +1,5 @@
 package com.bmsoft.cloud.work.service.certificate;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +19,7 @@ import com.bmsoft.cloud.work.properties.TypeProperties.TypeField;
  */
 public interface CertificateService extends SuperCacheService<Certificate> {
 
-	Map<Serializable, Object> findNameByIds(Set<Serializable> ids);
+	Map<Long, String> findNameByIds(Set<Long> ids);
 	
 	List<Type> getTypeList();
 	

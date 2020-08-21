@@ -7,6 +7,7 @@ import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.ORG_ID_FE
 import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.ORG_ID_NAME_METHOD;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -21,6 +22,7 @@ import com.bmsoft.cloud.model.RemoteData;
 import com.bmsoft.cloud.work.enumeration.inventory.InventoryType;
 import com.bmsoft.cloud.work.enumeration.inventory.SynStatus;
 import com.bmsoft.cloud.work.enumeration.inventory.VariableType;
+import com.bmsoft.cloud.work.handler.RemoteDataListHandler;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
@@ -47,7 +49,7 @@ import lombok.experimental.Accessors;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("inventory")
+@TableName(value = "inventory", autoResultMap = true)
 @ApiModel(value = "Inventory", description = "清单")
 @AllArgsConstructor
 public class Inventory extends Entity<Long> {
@@ -112,11 +114,11 @@ public class Inventory extends Entity<Long> {
 	 *                     CERTIFICATE_ID_NAME_METHOD) RemoteData<Long, String>
 	 */
 	@ApiModelProperty(value = "凭证ID")
-	@TableField("certificate_id")
+	@TableField(value = "certificate_ids", typeHandler = RemoteDataListHandler.class)
 	@InjectionField(api = CERTIFICATE_ID_CLASS, method = CERTIFICATE_ID_NAME_METHOD)
 	@ExcelEntity(name = "")
 	@Excel(name = "凭证ID")
-	private RemoteData<Long, String> certificate;
+	private List<RemoteData<Long, String>> certificates;
 
 	/**
 	 * 变量类型 #VariableType{YAML:yaml;JSON:json}
@@ -137,7 +139,7 @@ public class Inventory extends Entity<Long> {
 	@Builder
 	public Inventory(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
 			String name, InventoryType type, String description, SynStatus synStatus, RemoteData<Long, String> orgId,
-			RemoteData<Long, String> certificateId, VariableType variableType, String variableValue) {
+			List<RemoteData<Long, String>> certificateIds, VariableType variableType, String variableValue) {
 		this.id = id;
 		this.createTime = createTime;
 		this.createUser = createUser;
@@ -148,7 +150,7 @@ public class Inventory extends Entity<Long> {
 		this.description = description;
 		this.synStatus = synStatus;
 		this.org = orgId;
-		this.certificate = certificateId;
+		this.certificates = certificateIds;
 		this.variableType = variableType;
 		this.variableValue = variableValue;
 	}
