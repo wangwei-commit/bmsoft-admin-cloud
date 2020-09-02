@@ -75,6 +75,12 @@ public class InventoryServiceImpl extends SuperCacheServiceImpl<InventoryMapper,
 		return super.page(page, queryWrapper);
 	}
 
+	@Override
+	@InjectionResult
+	public Inventory getByIdCache(Serializable id) {
+		return super.getByIdCache(id);
+	}
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@Transactional(rollbackFor = Exception.class)

@@ -23,7 +23,7 @@ public class RemoteDataListHandler extends AbstractJsonTypeHandler<List<RemoteDa
 	@Override
 	protected String toJson(List<RemoteData> obj) {
 		return JSON.toJSONString(Optional.ofNullable(obj)
-				.map(list -> list.stream().map(data -> data.getKey()).collect(Collectors.toList())).orElse(null),
+				.map(list -> list.stream().filter(data -> data.getKey() != null).map(data -> data.getKey()).collect(Collectors.toList())).orElse(null),
 				SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullListAsEmpty,
 				SerializerFeature.WriteNullStringAsEmpty);
 	}
