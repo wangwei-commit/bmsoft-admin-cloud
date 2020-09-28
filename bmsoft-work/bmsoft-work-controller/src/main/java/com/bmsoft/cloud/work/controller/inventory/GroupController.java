@@ -55,7 +55,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/group")
 @Api(value = "Group", tags = "清单组")
-@PreAuth(replace = "group:")
+//@PreAuth(replace = "group:")
 public class GroupController
 		extends SuperCacheController<GroupService, Long, Group, GroupPageDTO, GroupSaveDTO, GroupUpdateDTO> {
 
@@ -67,7 +67,7 @@ public class GroupController
 
 	@Resource
 	private DistributedLock distributedLock;
-	
+
 	@Override
 	public R<Group> save(GroupSaveDTO saveDTO) {
 		R<Group> result = handlerSave(saveDTO);
@@ -112,6 +112,9 @@ public class GroupController
 			} else {
 				wrapper.in("id", childs);
 			}
+		}
+		if (params.getModel().getIgnoreIds() != null) {
+			wrapper.notIn("id", params.getModel().getIgnoreIds());
 		}
 		super.handlerWrapper(wrapper, params);
 	}

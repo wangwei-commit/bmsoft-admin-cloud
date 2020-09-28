@@ -4,6 +4,7 @@ import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.INVENTORY
 import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.INVENTORY_ID_NAME_METHOD;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -63,5 +64,10 @@ public class GroupPageDTO implements Serializable {
 	 */
 	@ApiModelProperty(value = "父组ID")
 	private Long parent;
+	/**
+	 * 忽略ID集
+	 */
+	@ApiModelProperty(value = "忽略ID集")
+	private List<Long> ignoreIds;
 
 }
