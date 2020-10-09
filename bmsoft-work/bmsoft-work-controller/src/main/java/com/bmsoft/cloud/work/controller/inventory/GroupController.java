@@ -55,7 +55,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/group")
 @Api(value = "Group", tags = "清单组")
-//@PreAuth(replace = "group:")
+@PreAuth(replace = "group:")
 public class GroupController
 		extends SuperCacheController<GroupService, Long, Group, GroupPageDTO, GroupSaveDTO, GroupUpdateDTO> {
 
@@ -111,6 +111,15 @@ public class GroupController
 				wrapper.eq("id", -1L);
 			} else {
 				wrapper.in("id", childs);
+			}
+		} else if (params.getModel().getHostId() != null) {
+			List<Long> groups = groupHostService.list(
+					Wraps.lbQ(GroupHost.builder().build()).eq(GroupHost::getHostId, params.getModel().getHostId()))
+					.stream().map(GroupHost::getGroupId).collect(Collectors.toList());
+			if (groups.isEmpty()) {
+				wrapper.eq("id", -1L);
+			} else {
+				wrapper.in("id", groups);
 			}
 		}
 		if (params.getModel().getIgnoreIds() != null) {

@@ -65,6 +65,11 @@ public class GroupPageDTO implements Serializable {
 	@ApiModelProperty(value = "父组ID")
 	private Long parent;
 	/**
+	 * 主机ID
+	 */
+	@ApiModelProperty(value = "主机ID")
+	private Long hostId;
+	/**
 	 * 忽略ID集
 	 */
 	@ApiModelProperty(value = "忽略ID集")
