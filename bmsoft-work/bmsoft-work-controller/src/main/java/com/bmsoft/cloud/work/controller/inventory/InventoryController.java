@@ -69,7 +69,7 @@ public class InventoryController extends
 
 	@Override
 	public void handlerWrapper(QueryWrap<Inventory> wrapper, PageParams<InventoryPageDTO> params) {
-		currentUserOperate.setQueryWrapByOrg(wrapper, getDbField("org", getEntityClass()));
+//		currentUserOperate.setQueryWrapByOrg(wrapper, getDbField("org", getEntityClass()));
 		super.handlerWrapper(wrapper, params);
 	}
 

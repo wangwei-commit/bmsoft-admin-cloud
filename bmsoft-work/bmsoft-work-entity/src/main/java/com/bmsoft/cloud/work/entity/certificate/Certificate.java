@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -77,7 +76,7 @@ public class Certificate extends Entity<Long> {
 	 *                     RemoteData<Long, String>
 	 */
 	@ApiModelProperty(value = "组织ID")
-	@NotNull(message = "组织ID不能为空")
+//	@NotNull(message = "组织ID不能为空")
 	@TableField("org_id")
 	@InjectionField(api = ORG_ID_FEIGN_CLASS, method = ORG_ID_NAME_METHOD)
 	@ExcelEntity(name = "")

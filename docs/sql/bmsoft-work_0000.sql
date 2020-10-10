@@ -17,6 +17,8 @@ CREATE TABLE `certificate`  (
   UNIQUE INDEX `UN_NAME_KEY`(`name`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '凭证' ROW_FORMAT = Dynamic;
 
+ALTER TABLE `certificate` MODIFY `org_id` bigint(20) NULL DEFAULT NULL COMMENT '组织ID\r\n@InjectionField(api = ORG_ID_FEIGN_CLASS, method = ORG_ID_NAME_METHOD) RemoteData<Long, String>';
+
 -- ----------------------------
 -- Table structure for inventory
 -- ----------------------------
@@ -38,6 +40,9 @@ CREATE TABLE `inventory`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `UN_NAME_KEY`(`name`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '清单' ROW_FORMAT = Dynamic;
+
+ALTER TABLE `inventory` ADD `instance_group` varchar(128) NULL DEFAULT NULL COMMENT '实例组';
+ALTER TABLE `inventory` MODIFY `org_id` bigint(20) NULL DEFAULT NULL COMMENT '组织ID\r\n@InjectionField(api = ORG_ID_FEIGN_CLASS, method = ORG_ID_NAME_METHOD) RemoteData<Long, String>';
 
 -- ----------------------------
 -- Table structure for inventory_group

@@ -100,7 +100,7 @@ public class Inventory extends Entity<Long> {
 	 *                     RemoteData<Long, String>
 	 */
 	@ApiModelProperty(value = "组织ID")
-	@NotNull(message = "组织ID不能为空")
+//	@NotNull(message = "组织ID不能为空")
 	@TableField("org_id")
 	@InjectionField(api = ORG_ID_FEIGN_CLASS, method = ORG_ID_NAME_METHOD)
 	@ExcelEntity(name = "")
@@ -119,6 +119,15 @@ public class Inventory extends Entity<Long> {
 	@ExcelEntity(name = "")
 	@Excel(name = "凭证ID")
 	private List<RemoteData<Long, String>> certificates;
+	
+	/**
+	 * 实例组
+	 */
+	@ApiModelProperty(value = "实例组")
+	@Length(max = 128, message = "实例组长度不能超过128")
+	@TableField(value = "instance_group", condition = LIKE)
+	@Excel(name = "实例组")
+	private String instanceGroup;
 
 	/**
 	 * 变量类型 #VariableType{YAML:yaml;JSON:json}
@@ -139,7 +148,7 @@ public class Inventory extends Entity<Long> {
 	@Builder
 	public Inventory(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
 			String name, InventoryType type, String description, SynStatus synStatus, RemoteData<Long, String> orgId,
-			List<RemoteData<Long, String>> certificateIds, VariableType variableType, String variableValue) {
+			List<RemoteData<Long, String>> certificateIds, VariableType variableType, String variableValue, String instanceGroup) {
 		this.id = id;
 		this.createTime = createTime;
 		this.createUser = createUser;
@@ -153,6 +162,7 @@ public class Inventory extends Entity<Long> {
 		this.certificates = certificateIds;
 		this.variableType = variableType;
 		this.variableValue = variableValue;
+		this.instanceGroup = instanceGroup;
 	}
 
 }

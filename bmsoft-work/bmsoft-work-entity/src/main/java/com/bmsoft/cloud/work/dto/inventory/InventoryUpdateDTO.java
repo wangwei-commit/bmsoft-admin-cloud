@@ -97,4 +97,9 @@ public class InventoryUpdateDTO implements Serializable {
 	 */
 	@ApiModelProperty(value = "变量值")
 	private String variableValue;
+	/**
+	 * 实例组
+	 */
+	@ApiModelProperty(value = "实例组")
+	private String instanceGroup;
 }

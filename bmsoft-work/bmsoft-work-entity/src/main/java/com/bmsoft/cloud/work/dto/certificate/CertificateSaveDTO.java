@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.Map;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -64,7 +63,7 @@ public class CertificateSaveDTO implements Serializable {
 	 *                     RemoteData<Long, String>
 	 */
 	@ApiModelProperty(value = "组织ID", required = true)
-	@NotNull(message = "组织ID不能为空")
+//	@NotNull(message = "组织ID不能为空")
 	@InjectionField(api = ORG_ID_FEIGN_CLASS, method = ORG_ID_NAME_METHOD)
 	private RemoteData<Long, String> org;
 	/**
