@@ -87,6 +87,19 @@ public class InventoryController extends
 		}));
 	}
 
+	@Override
+	public R<Inventory> get(Long id) {
+		Inventory inventory = baseService.getByIdCache(id);
+		Optional.ofNullable(inventory).map(ele -> ele.getCertificates())
+				.map(list -> list.stream().map(certificate -> certificate.getKey()).collect(Collectors.toSet()))
+				.map(certificates -> certificateService.findNameByIds(certificates)).map(map -> {
+					inventory.getCertificates().stream()
+							.forEach(certificate -> certificate.setData(map.get(certificate.getKey())));
+					return null;
+				});
+		return success(inventory);
+	}
+
 	/**
 	 * Excel导入后的操作
 	 *
