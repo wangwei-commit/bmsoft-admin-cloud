@@ -73,7 +73,7 @@ public class CertificateController extends
 
 	@Override
 	public void handlerWrapper(QueryWrap<Certificate> wrapper, PageParams<CertificatePageDTO> params) {
-		currentUserOperate.setQueryWrapByOrg(wrapper, getDbField("org", getEntityClass()));
+		//currentUserOperate.setQueryWrapByOrg(wrapper, getDbField("org", getEntityClass()));
 		super.handlerWrapper(wrapper, params);
 	}
 
