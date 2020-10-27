@@ -48,7 +48,6 @@ public class CertificateTypeController extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public R<CertificateType> handlerSave(CertificateTypeSaveDTO model) {
-		model.setDefault(false);
 		model.setKey(model.getDisplay().toLowerCase());
 		return handler(model.getCertificateType(), model.getFields().toString(), model,
 				dto -> super.handlerSave((CertificateTypeSaveDTO) dto));
