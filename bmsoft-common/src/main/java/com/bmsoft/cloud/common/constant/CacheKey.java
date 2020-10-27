@@ -194,22 +194,33 @@ public interface CacheKey {
     String REGISTER_USER = "register";
     // 消息服务缓存 end
 
-    
+
     String INVENTORY = "inventory";
-    
+
     String INVENTORY_GROUP = "inventory_group";
-    
+
     String INVENTORY_HOST = "inventory_host";
-    
+
     String INVENTORY_SCRIPT = "inventory_script";
-    
+
     String INVENTORY_SOURCE = "inventory_source";
-    
+
     String CERTIFICATE = "certificate";
-    
+
     String GROUP_LOCK = "inventory_group_lock";
-    
+
     String GROUP_HOST_LOCK = "inventory_group_host_lock";
+
+    String SCENE = "scene";
+
+    String SCRIPTS = "scripts";
+
+    String SCENARIOS ="scenarios";
+
+    String TEMPLATE ="template";
+
+    String CERTIFICATETYPE = "certificateType";
+
     /**
      * 构建key
      *
