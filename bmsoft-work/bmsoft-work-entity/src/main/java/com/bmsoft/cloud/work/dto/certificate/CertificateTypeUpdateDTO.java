@@ -73,6 +73,6 @@ public class CertificateTypeUpdateDTO implements Serializable {
 	/**
 	 * 是否内置
 	 */
-	@ApiModelProperty(value = "场景描述")
-	private boolean isDefault;
+	@ApiModelProperty(value = "是否内置")
+	private Boolean isDefault;
 }

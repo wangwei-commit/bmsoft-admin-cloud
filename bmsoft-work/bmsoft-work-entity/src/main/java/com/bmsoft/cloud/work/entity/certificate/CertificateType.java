@@ -94,11 +94,11 @@ public class CertificateType extends Entity<Long> {
 	@ApiModelProperty(value = "是否内置")
 	@TableField(value = "isDefault", condition =EQUAL)
 	@Excel(name = "是否内置")
-	private boolean isDefault;
+	private Boolean isDefault;
 
 	@Builder
 	public CertificateType(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-                           String display, String description,   VariableType certificateType, List<Map<String, Object>> certificateValue,boolean isDefault) {
+                           String display, String description,   VariableType certificateType, List<Map<String, Object>> fields,Boolean isDefault) {
 		this.id = id;
 		this.createTime = createTime;
 		this.createUser = createUser;
