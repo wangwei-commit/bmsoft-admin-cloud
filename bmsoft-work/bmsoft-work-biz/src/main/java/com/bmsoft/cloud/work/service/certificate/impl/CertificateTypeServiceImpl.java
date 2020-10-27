@@ -39,7 +39,7 @@ public class CertificateTypeServiceImpl extends SuperCacheServiceImpl<Certificat
 
 	@Override
 	protected String getRegion() {
-		return CacheKey.CERTIFICATE;
+		return CacheKey.CERTIFICATETYPE;
 	}
 
 	@Override
