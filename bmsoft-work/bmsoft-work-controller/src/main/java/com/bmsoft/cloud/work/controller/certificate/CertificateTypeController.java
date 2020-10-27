@@ -4,6 +4,7 @@ import com.bmsoft.cloud.base.R;
 import com.bmsoft.cloud.base.controller.SuperCacheController;
 import com.bmsoft.cloud.base.request.PageParams;
 import com.bmsoft.cloud.database.mybatis.conditions.query.QueryWrap;
+import com.bmsoft.cloud.security.annotation.PreAuth;
 import com.bmsoft.cloud.work.dto.certificate.CertificateTypePageDTO;
 import com.bmsoft.cloud.work.dto.certificate.CertificateTypeSaveDTO;
 import com.bmsoft.cloud.work.dto.certificate.CertificateTypeUpdateDTO;
@@ -33,7 +34,7 @@ import static com.bmsoft.cloud.work.util.VariableUtil.handler;
 @RestController
 @RequestMapping("/certificateType")
 @Api(value = "CertificateType", tags = "凭证类型")
-//@PreAuth(replace = "certificateType:")
+@PreAuth(replace = "certificateType:")
 public class CertificateTypeController extends
 		SuperCacheController<CertificateTypeService, Long, CertificateType, CertificateTypePageDTO, CertificateTypeSaveDTO, CertificateTypeUpdateDTO> {
 
