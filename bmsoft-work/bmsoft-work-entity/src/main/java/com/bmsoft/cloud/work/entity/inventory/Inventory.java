@@ -1,19 +1,7 @@
 package com.bmsoft.cloud.work.entity.inventory;
 
-import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.CERTIFICATE_ID_CLASS;
-import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.CERTIFICATE_ID_NAME_METHOD;
-import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.ORG_ID_FEIGN_CLASS;
-import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.ORG_ID_NAME_METHOD;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
-
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.bmsoft.cloud.base.entity.Entity;
@@ -23,18 +11,19 @@ import com.bmsoft.cloud.work.enumeration.inventory.InventoryType;
 import com.bmsoft.cloud.work.enumeration.inventory.SynStatus;
 import com.bmsoft.cloud.work.enumeration.inventory.VariableType;
 import com.bmsoft.cloud.work.handler.RemoteDataListHandler;
-
-import cn.afterturn.easypoi.excel.annotation.Excel;
-import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.*;
 
 /**
  * <p>
@@ -95,7 +84,7 @@ public class Inventory extends Entity<Long> {
 
 	/**
 	 * 组织ID
-	 * 
+	 *
 	 * @InjectionField(api = ORG_ID_FEIGN_CLASS, method = ORG_ID_NAME_METHOD)
 	 *                     RemoteData<Long, String>
 	 */
@@ -109,7 +98,7 @@ public class Inventory extends Entity<Long> {
 
 	/**
 	 * 凭证ID
-	 * 
+	 *
 	 * @InjectionField(api = CERTIFICATE_ID_CLASS, method =
 	 *                     CERTIFICATE_ID_NAME_METHOD) RemoteData<Long, String>
 	 */
@@ -119,7 +108,7 @@ public class Inventory extends Entity<Long> {
 	@ExcelEntity(name = "")
 	@Excel(name = "凭证ID")
 	private List<RemoteData<Long, String>> certificates;
-	
+
 	/**
 	 * 实例组
 	 */

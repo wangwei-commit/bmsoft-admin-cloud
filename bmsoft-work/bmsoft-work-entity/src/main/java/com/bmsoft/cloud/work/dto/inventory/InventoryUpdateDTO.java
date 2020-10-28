@@ -1,32 +1,21 @@
 package com.bmsoft.cloud.work.dto.inventory;
 
-import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.CERTIFICATE_ID_CLASS;
-import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.CERTIFICATE_ID_NAME_METHOD;
-import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.ORG_ID_FEIGN_CLASS;
-import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.ORG_ID_NAME_METHOD;
-
-import java.io.Serializable;
-import java.util.List;
-
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
-
 import com.bmsoft.cloud.base.entity.SuperEntity;
 import com.bmsoft.cloud.injection.annonation.InjectionField;
 import com.bmsoft.cloud.model.RemoteData;
 import com.bmsoft.cloud.work.enumeration.inventory.InventoryType;
 import com.bmsoft.cloud.work.enumeration.inventory.VariableType;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.List;
+
+import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.*;
 
 /**
  * <p>
@@ -71,7 +60,7 @@ public class InventoryUpdateDTO implements Serializable {
 	private String description;
 	/**
 	 * 组织ID
-	 * 
+	 *
 	 * @InjectionField(api = ORG_ID_FEIGN_CLASS, method = ORG_ID_NAME_METHOD)
 	 *                     RemoteData<Long, String>
 	 */
@@ -80,7 +69,7 @@ public class InventoryUpdateDTO implements Serializable {
 	private RemoteData<Long, String> org;
 	/**
 	 * 凭证ID
-	 * 
+	 *
 	 * @InjectionField(api = CERTIFICATE_ID_CLASS, method =
 	 *                     CERTIFICATE_ID_NAME_METHOD) RemoteData<Long, String>
 	 */

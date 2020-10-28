@@ -48,7 +48,7 @@ import static com.bmsoft.cloud.work.util.VariableUtil.isYamlListValue;
 @RestController
 @RequestMapping("/certificateType")
 @Api(value = "CertificateType", tags = "凭证类型")
-//@PreAuth(replace = "certificateType:")
+@PreAuth(replace = "certificateType:")
 public class CertificateTypeController extends
 		SuperCacheController<CertificateTypeService, Long, CertificateType, CertificateTypePageDTO, CertificateTypeSaveDTO, CertificateTypeUpdateDTO> {
 	@Autowired
@@ -57,6 +57,12 @@ public class CertificateTypeController extends
 	@Override
 	public R<CertificateType> handlerUpdate(CertificateTypeUpdateDTO model) {
 		model.setKey(model.getDisplay().toLowerCase());
+		if(VariableType.YAML.eq(model.getCertificateType())){
+			if(!isYamlListValue(model.getFieldString())){
+				return R.fail(VariableUtil.VARIABLE_ERROR_CODE, VariableUtil.VARIABLE_ERROR_MESSAGE);
+			}
+			return super.handlerUpdate(model);
+		}
 		return handler(model.getCertificateType(), model.getFieldString(), model,
 				dto -> super.handlerUpdate((CertificateTypeUpdateDTO) dto));
 	}
@@ -94,7 +100,7 @@ public class CertificateTypeController extends
 
 	@ApiOperation(value = "查询转换后数据")
 	@PostMapping("/queryChangeData")
-	//@PreAuth("hasPermit('{}queryChangeData')")
+	@PreAuth("hasPermit('{}queryChangeData')")
 
 	public R<List<CertificateType>> queryChangeData() {
 		List<CertificateType> list =  baseService.list();

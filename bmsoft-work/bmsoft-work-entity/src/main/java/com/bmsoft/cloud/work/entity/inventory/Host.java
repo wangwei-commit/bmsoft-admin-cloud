@@ -1,34 +1,26 @@
 package com.bmsoft.cloud.work.entity.inventory;
 
-import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.INVENTORY_ID_CLASS;
-import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.INVENTORY_ID_NAME_METHOD;
-
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
-
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.bmsoft.cloud.base.entity.Entity;
 import com.bmsoft.cloud.injection.annonation.InjectionField;
 import com.bmsoft.cloud.model.RemoteData;
 import com.bmsoft.cloud.work.enumeration.inventory.VariableType;
-
-import cn.afterturn.easypoi.excel.annotation.Excel;
-import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.INVENTORY_ID_CLASS;
+import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.INVENTORY_ID_NAME_METHOD;
 
 /**
  * <p>
@@ -52,7 +44,7 @@ public class Host extends Entity<Long> {
 
 	/**
 	 * 清单ID
-	 * 
+	 *
 	 * @InjectionField(api = INVENTORY_ID_CLASS, method = INVENTORY_ID_NAME_METHOD)
 	 *                     RemoteData<String, String>
 	 */

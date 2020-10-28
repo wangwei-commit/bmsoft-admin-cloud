@@ -50,7 +50,7 @@ import static com.bmsoft.cloud.exception.code.ExceptionCode.BASE_VALID_PARAM;
 @RestController
 @RequestMapping("/scripts")
 @Api(value = "Scripts", tags = "剧本")
-//@PreAuth(replace = "scripts:")
+@PreAuth(replace = "scripts:")
 public class ScriptsController extends
 		SuperCacheController<ScriptsService, Long, Scripts, ScriptsPageDTO, ScriptsSaveDTO, ScriptsUpdateDTO> {
 
@@ -100,7 +100,7 @@ public class ScriptsController extends
 	})
 	@PostMapping(value = "/upload")
 	@SysLog("上传附件")
-	//@PreAuth("hasPermit('{}upload')")
+	@PreAuth("hasPermit('{}upload')")
 	public R<Scripts> upload(
 			@RequestParam(value = "file") MultipartFile file) throws Exception {
 		// 忽略路径字段,只处理文件类型

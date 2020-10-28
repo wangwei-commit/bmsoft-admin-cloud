@@ -1,27 +1,19 @@
 package com.bmsoft.cloud.work.dto.certificate;
 
-import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.ORG_ID_FEIGN_CLASS;
-import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.ORG_ID_NAME_METHOD;
+import com.bmsoft.cloud.injection.annonation.InjectionField;
+import com.bmsoft.cloud.model.RemoteData;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.*;
+import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Map;
 
-import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.validator.constraints.Length;
-
-import com.bmsoft.cloud.injection.annonation.InjectionField;
-import com.bmsoft.cloud.model.RemoteData;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
+import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.ORG_ID_FEIGN_CLASS;
+import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.ORG_ID_NAME_METHOD;
 
 /**
  * <p>
@@ -58,7 +50,7 @@ public class CertificateSaveDTO implements Serializable {
 	private String description;
 	/**
 	 * 组织ID
-	 * 
+	 *
 	 * @InjectionField(api = ORG_ID_FEIGN_CLASS, method = ORG_ID_NAME_METHOD)
 	 *                     RemoteData<Long, String>
 	 */

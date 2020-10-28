@@ -1,9 +1,8 @@
 package com.bmsoft.cloud.work.dao.certificate;
 
-import org.springframework.stereotype.Repository;
-
 import com.bmsoft.cloud.base.mapper.SuperMapper;
 import com.bmsoft.cloud.work.entity.certificate.Certificate;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>

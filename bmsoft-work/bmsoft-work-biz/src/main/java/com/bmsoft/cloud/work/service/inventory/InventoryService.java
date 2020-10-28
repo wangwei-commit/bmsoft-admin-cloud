@@ -1,11 +1,11 @@
 package com.bmsoft.cloud.work.service.inventory;
 
+import com.bmsoft.cloud.base.service.SuperCacheService;
+import com.bmsoft.cloud.work.entity.inventory.Inventory;
+
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
-
-import com.bmsoft.cloud.base.service.SuperCacheService;
-import com.bmsoft.cloud.work.entity.inventory.Inventory;
 
 /**
  * <p>

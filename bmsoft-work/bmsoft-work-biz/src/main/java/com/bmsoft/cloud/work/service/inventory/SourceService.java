@@ -1,11 +1,11 @@
 package com.bmsoft.cloud.work.service.inventory;
 
-import java.util.List;
-
 import com.bmsoft.cloud.base.service.SuperCacheService;
 import com.bmsoft.cloud.work.entity.inventory.Source;
 import com.bmsoft.cloud.work.properties.TypeProperties.Type;
 import com.bmsoft.cloud.work.properties.TypeProperties.TypeField;
+
+import java.util.List;
 
 /**
  * <p>
@@ -18,6 +18,6 @@ import com.bmsoft.cloud.work.properties.TypeProperties.TypeField;
 public interface SourceService extends SuperCacheService<Source> {
 
 	List<Type> getSourceTypeList();
-	
+
 	List<TypeField> getTypeFieldByType(String type);
 }

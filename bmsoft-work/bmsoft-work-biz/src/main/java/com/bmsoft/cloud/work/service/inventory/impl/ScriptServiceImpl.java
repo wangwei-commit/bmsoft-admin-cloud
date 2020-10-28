@@ -1,7 +1,5 @@
 package com.bmsoft.cloud.work.service.inventory.impl;
 
-import org.springframework.stereotype.Service;
-
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.bmsoft.cloud.base.service.SuperCacheServiceImpl;
@@ -10,6 +8,7 @@ import com.bmsoft.cloud.injection.annonation.InjectionResult;
 import com.bmsoft.cloud.work.dao.inventory.ScriptMapper;
 import com.bmsoft.cloud.work.entity.inventory.Script;
 import com.bmsoft.cloud.work.service.inventory.ScriptService;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -26,7 +25,7 @@ public class ScriptServiceImpl extends SuperCacheServiceImpl<ScriptMapper, Scrip
 	protected String getRegion() {
 		return CacheKey.INVENTORY_SCRIPT;
 	}
-	
+
 	@Override
 	@InjectionResult
 	public <E extends IPage<Script>> E page(E page, Wrapper<Script> queryWrapper) {

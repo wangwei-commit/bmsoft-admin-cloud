@@ -1,16 +1,6 @@
 package com.bmsoft.cloud.work.service.certificate.impl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
+import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.bmsoft.cloud.base.service.SuperCacheServiceImpl;
@@ -25,8 +15,11 @@ import com.bmsoft.cloud.work.properties.TypeProperties;
 import com.bmsoft.cloud.work.properties.TypeProperties.Type;
 import com.bmsoft.cloud.work.properties.TypeProperties.TypeField;
 import com.bmsoft.cloud.work.service.certificate.CertificateService;
+import org.springframework.stereotype.Service;
 
-import cn.hutool.core.convert.Convert;
+import javax.annotation.Resource;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>

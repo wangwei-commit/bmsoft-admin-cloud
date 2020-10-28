@@ -1,9 +1,8 @@
 package com.bmsoft.cloud.work.dao.inventory;
 
-import org.springframework.stereotype.Repository;
-
 import com.bmsoft.cloud.base.mapper.SuperMapper;
 import com.bmsoft.cloud.work.entity.inventory.GroupHost;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>

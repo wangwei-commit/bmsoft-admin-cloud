@@ -1,11 +1,5 @@
 package com.bmsoft.cloud.work.service.inventory.impl;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import com.bmsoft.cloud.base.service.SuperCacheServiceImpl;
 import com.bmsoft.cloud.common.constant.CacheKey;
 import com.bmsoft.cloud.work.dao.inventory.SourceMapper;
@@ -14,6 +8,10 @@ import com.bmsoft.cloud.work.properties.TypeProperties;
 import com.bmsoft.cloud.work.properties.TypeProperties.Type;
 import com.bmsoft.cloud.work.properties.TypeProperties.TypeField;
 import com.bmsoft.cloud.work.service.inventory.SourceService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>

@@ -2,7 +2,6 @@ package com.bmsoft.cloud.work.enumeration.inventory;
 
 import com.bmsoft.cloud.base.BaseEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

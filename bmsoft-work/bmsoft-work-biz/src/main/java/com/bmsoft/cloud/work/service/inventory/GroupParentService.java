@@ -1,10 +1,10 @@
 package com.bmsoft.cloud.work.service.inventory;
 
-import java.io.Serializable;
-import java.util.Collection;
-
 import com.bmsoft.cloud.base.service.SuperService;
 import com.bmsoft.cloud.work.entity.inventory.GroupParent;
+
+import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * <p>
