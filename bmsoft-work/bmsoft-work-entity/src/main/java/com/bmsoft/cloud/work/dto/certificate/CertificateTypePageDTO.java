@@ -35,6 +35,6 @@ public class CertificateTypePageDTO implements Serializable {
 	@ApiModelProperty(value = "名称")
 	@NotEmpty(message = "名称不能为空")
 	@Length(max = 32, message = "名称长度不能超过32")
-	private String name;
+	private String display;
 
 }

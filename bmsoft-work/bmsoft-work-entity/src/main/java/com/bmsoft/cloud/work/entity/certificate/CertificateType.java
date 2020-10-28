@@ -79,14 +79,17 @@ public class CertificateType extends Entity<Long> {
 	@Excel(name = "类型", replace = { "yaml_YAML", "json_JSON", "_null"  })
 	private VariableType certificateType;
 
+	@TableField(exist = false)
+	private List<Map> fields;
+
 	/**
 	 * 类型详细
 	 */
 	@ApiModelProperty(value = "类型详细")
 	@NotEmpty(message = "类型详细不能为空")
-	@TableField(value = "certificate_value", typeHandler = FastjsonTypeHandler.class)
+	@TableField(value = "certificate_value")
 	@Excel(name = "类型详细")
-	private List<Map<String, Object>> fields;
+	private String  fieldString;
 
 	/**
 	 * 是否内置
@@ -98,7 +101,7 @@ public class CertificateType extends Entity<Long> {
 
 	@Builder
 	public CertificateType(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-                           String display, String description,   VariableType certificateType, List<Map<String, Object>> fields,Boolean isDefault) {
+                           String display, String description,   VariableType certificateType, List<Map> fields,Boolean isDefault) {
 		this.id = id;
 		this.createTime = createTime;
 		this.createUser = createUser;

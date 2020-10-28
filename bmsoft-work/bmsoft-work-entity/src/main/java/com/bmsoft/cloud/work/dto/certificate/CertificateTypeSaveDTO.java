@@ -61,7 +61,7 @@ public class CertificateTypeSaveDTO implements Serializable {
 	 * 类型详细
 	 */
 	@ApiModelProperty(value = "类型详细", required = true)
-	private List<Map<String, Object>> fields;
+	private String  fieldString;
 
 	/**
 	 * 是否内置

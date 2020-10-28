@@ -68,7 +68,7 @@ public class CertificateTypeUpdateDTO implements Serializable {
 	 */
 	@ApiModelProperty(value = "类型详细", required = true)
 	@NotEmpty(message = "类型详细不能为空")
-	private List<Map<String, Object>> fields;
+	private String  fieldString;
 
 	/**
 	 * 是否内置
