@@ -17,6 +17,7 @@ import com.bmsoft.cloud.work.entity.certificate.CertificateType;
 import com.bmsoft.cloud.work.entity.inventory.Inventory;
 import com.bmsoft.cloud.work.enumeration.inventory.VariableType;
 import com.bmsoft.cloud.work.service.certificate.CertificateTypeService;
+import com.bmsoft.cloud.work.util.VariableUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.bmsoft.cloud.work.util.VariableUtil.handler;
+import static com.bmsoft.cloud.work.util.VariableUtil.isYamlListValue;
 
 /**
  * <p>
@@ -54,7 +56,8 @@ public class CertificateTypeController extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public R<CertificateType> handlerUpdate(CertificateTypeUpdateDTO model) {
-		return handler(model.getCertificateType(), model.getFieldString().toString(), model,
+		model.setKey(model.getDisplay().toLowerCase());
+		return handler(model.getCertificateType(), model.getFieldString(), model,
 				dto -> super.handlerUpdate((CertificateTypeUpdateDTO) dto));
 	}
 
@@ -62,6 +65,12 @@ public class CertificateTypeController extends
 	@Override
 	public R<CertificateType> handlerSave(CertificateTypeSaveDTO model) {
 		model.setKey(model.getDisplay().toLowerCase());
+		if(VariableType.YAML.eq(model.getCertificateType())){
+			if(!isYamlListValue(model.getFieldString())){
+				return R.fail(VariableUtil.VARIABLE_ERROR_CODE, VariableUtil.VARIABLE_ERROR_MESSAGE);
+			}
+			return super.handlerSave(model);
+		}
 		return handler(model.getCertificateType(), model.getFieldString(), model,
 				dto -> super.handlerSave((CertificateTypeSaveDTO) dto));
 	}
@@ -114,4 +123,6 @@ public class CertificateTypeController extends
 
 		return R.success(baseService.saveBatch(certificateList));
 	}
+
+
 }
