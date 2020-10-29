@@ -52,7 +52,7 @@ public class SceneController extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public R<Scene> handlerSave(SceneSaveDTO model) {
-		model.setDefault(false);
+		model.setIsDefault(false);
 		return   super.handlerSave(model);
 	}
 
@@ -66,7 +66,7 @@ public class SceneController extends
 	public R<Boolean> handlerDelete(List<Long> longs) {
 		List<Scene> list = sceneService.listByIds(longs);
 
-		if (list.stream().anyMatch(scene -> scene.isDefault())) {
+		if (list.stream().anyMatch(scene -> scene.getIsDefault())) {
 			return R.fail(400, "存在内置场景，不可删除");
 		}
 		return  super.handlerDelete(longs);
