@@ -73,8 +73,7 @@ public class SceneServiceImpl extends SuperCacheServiceImpl<SceneMapper, Scene>
 
 
 	@Override
-	public Map<Scene, JSONObject> findScenesByKey(String key) {
-		Map<Scene, JSONObject> resultMap = new HashMap<>();
+	public List<Scene> findScenesByKey(String key) {
 		LbqWrapper<Scenarios> query = Wraps.<Scenarios>lbQ().like(Scenarios::getName, key);
 		List<Scenarios> list = scenariosService.list(query);
 		Map<Long, Long> collect = list.stream().collect(
@@ -83,21 +82,23 @@ public class SceneServiceImpl extends SuperCacheServiceImpl<SceneMapper, Scene>
 		List<Scripts> scriptsList = scriptsService.list(scriptsQuery);
 		Map<Long, Long> scriptsCollect = scriptsList.stream().collect(
 				Collectors.groupingBy(scripts ->scripts.getScene().getKey(),Collectors.counting()));
-		List<Long> sceneIds = new ArrayList<>();
-		sceneIds.addAll(collect.keySet());
-		sceneIds.addAll(scriptsCollect.keySet());
-		if(sceneIds.isEmpty()){
-			return resultMap;
-		}
-		List<Scene> scenes =  super.listByIds(sceneIds);
 
-		scenes.stream().forEach(scene ->{ JSONObject obj = new JSONObject();
-			 if( collect.containsKey(scene.getId())){obj.put("scenariosCount",collect.get(scene.getId()));}
-			 if( scriptsCollect.containsKey(scene.getId())){obj.put("scriptsCount",scriptsCollect.get(scene.getId())); }
-			 resultMap.put(scene,obj);
+		List<Scene> scenes =  super.list();
+
+		scenes.stream().forEach(scene ->{
+			 if( collect.containsKey(scene.getId())){
+				 scene.setScenariosCount(collect.get(scene.getId()));
+			 } else {
+				 scene.setScenariosCount(0L);
+			 }
+			 if( scriptsCollect.containsKey(scene.getId())){
+				 scene.setScriptsCount(scriptsCollect.get(scene.getId()));
+			 }else {
+				 scene.setScriptsCount(0L);
+			 }
 		});
 
-		return resultMap;
+		return scenes;
 	}
 
 	@Override

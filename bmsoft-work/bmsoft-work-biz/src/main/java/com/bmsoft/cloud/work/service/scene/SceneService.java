@@ -5,6 +5,7 @@ import com.bmsoft.cloud.base.service.SuperCacheService;
 import com.bmsoft.cloud.work.entity.scene.Scene;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ public interface SceneService extends SuperCacheService<Scene> {
 	 * @param key
 	 * @return
 	 */
-	Map<Scene, JSONObject> findScenesByKey(String key);
+	List<Scene>  findScenesByKey(String key);
 	/**
 	 * 根据ID查找场景
 	 * @param ids

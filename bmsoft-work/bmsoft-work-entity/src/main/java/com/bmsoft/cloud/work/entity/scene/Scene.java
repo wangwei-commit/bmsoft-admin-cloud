@@ -70,4 +70,10 @@ public class Scene extends Entity<Long> {
     @TableField(value = "isDefault", condition =EQUAL)
     @Excel(name = "场景描述")
     private Boolean isDefault;
+
+    @TableField(exist = false)
+    private Long scenariosCount;
+
+    @TableField(exist = false)
+    private Long scriptsCount;
 }
