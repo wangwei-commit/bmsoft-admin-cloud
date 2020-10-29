@@ -65,7 +65,7 @@ public class SceneServiceImpl extends SuperCacheServiceImpl<SceneMapper, Scene>
 	@Transactional(rollbackFor = Exception.class)
 	public boolean removeByIds(Collection<? extends Serializable> idList) {
 		List<Scene> scenes= super.listByIds(idList);
-		idList = scenes.stream().filter(scene -> !scene.isDefault()).map(Scene::getId).collect(Collectors.toList());
+		idList = scenes.stream().filter(scene -> !scene.getIsDefault()).map(Scene::getId).collect(Collectors.toList());
 		return super.removeByIds(idList);
 	}
 
