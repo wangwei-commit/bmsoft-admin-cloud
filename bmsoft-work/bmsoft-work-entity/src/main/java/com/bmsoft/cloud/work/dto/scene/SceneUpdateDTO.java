@@ -64,5 +64,5 @@ public class SceneUpdateDTO implements Serializable {
 	@ApiModelProperty(value = "场景描述")
 	@TableField(value = "isDefault(0为内置，1为添加)", condition =EQUAL)
 	@Excel(name = "场景描述")
-	private boolean isDefault;
+	private Boolean isDefault;
 }

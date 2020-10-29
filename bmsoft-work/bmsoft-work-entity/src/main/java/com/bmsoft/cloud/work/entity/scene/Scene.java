@@ -69,5 +69,5 @@ public class Scene extends Entity<Long> {
     @ApiModelProperty(value = "场景描述")
     @TableField(value = "isDefault", condition =EQUAL)
     @Excel(name = "场景描述")
-    private boolean isDefault;
+    private Boolean isDefault;
 }
