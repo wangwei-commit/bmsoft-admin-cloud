@@ -41,7 +41,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/scene")
 @Api(value = "Scene", tags = "运维场景")
-//@PreAuth(replace = "scene:")
+@PreAuth(replace = "scene:")
 public class SceneController extends
 		SuperCacheController<SceneService, Long, Scene, ScenePageDTO, SceneSaveDTO, SceneUpdateDTO> {
 
@@ -93,7 +93,7 @@ public class SceneController extends
 			@ApiImplicitParam(name = "key", value = "脚本名或剧本名", dataType = "String", paramType = "query")})
 	@PostMapping("/searchByKey")
 	@SysLog("'关键字查找场景,key:' + #key")
-	//@PreAuth("hasPermit('{}searchByKey')")
+	@PreAuth("hasPermit('{}searchByKey')")
 	public R<List<Scene>> searchByKey(@RequestParam("key") String key) {
 		return success(sceneService.findScenesByKey(key));
 	}
