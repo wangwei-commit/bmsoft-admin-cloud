@@ -20,8 +20,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.SCENE_ID_CLASS;
-import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.SCENE_ID_NAME_METHOD;
+import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.*;
 
 @Data
 @NoArgsConstructor
@@ -126,4 +125,16 @@ public class Scenarios extends Entity<Long> {
     @Excel(name = "脚本内容")
     private String content;
 
+
+    @ApiModelProperty("创建人")
+    @TableField(value = "creator_name")
+    @Excel(name = "创建人姓名")
+    @InjectionField(api =USER_ID_FEIGN_CLASS , method = USER_ID_NAME_METHOD)
+    protected RemoteData<Long, String> creatorNames;
+
+    @ApiModelProperty("修改人")
+    @TableField(value = "update_name")
+    @Excel(name = "修改人姓名")
+    @InjectionField(api =USER_ID_FEIGN_CLASS , method = USER_ID_NAME_METHOD)
+    protected RemoteData<Long, String> modifyNames;
 }
