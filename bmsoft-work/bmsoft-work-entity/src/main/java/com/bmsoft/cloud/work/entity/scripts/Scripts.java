@@ -119,12 +119,12 @@ public class Scripts extends Entity<Long> {
     @TableField(value = "creator_name")
     @Excel(name = "创建人姓名")
     @InjectionField(api =USER_ID_FEIGN_CLASS , method = USER_ID_NAME_METHOD)
-    protected RemoteData<Long, String> creatorNames;
+    protected RemoteData<String, String> creatorNames;
 
     @ApiModelProperty("修改人")
     @TableField(value = "update_name")
     @Excel(name = "修改人姓名")
     @InjectionField(api =USER_ID_FEIGN_CLASS , method = USER_ID_NAME_METHOD)
-    protected RemoteData<Long, String> modifyNames;
+    protected RemoteData<String, String> modifyNames;
 
 }
