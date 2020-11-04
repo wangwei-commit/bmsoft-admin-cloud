@@ -82,8 +82,8 @@ public class SceneServiceImpl extends SuperCacheServiceImpl<SceneMapper, Scene>
 		List<Scripts> scriptsList = scriptsService.list(scriptsQuery);
 		Map<Long, Long> scriptsCollect = scriptsList.stream().collect(
 				Collectors.groupingBy(scripts ->scripts.getScene().getKey(),Collectors.counting()));
-
-		List<Scene> scenes =  super.list();
+		LbqWrapper<Scene> sceneQuery = Wraps.<Scene>lbQ().orderByDesc(Scene::getCreateTime);
+		List<Scene> scenes =  super.list(sceneQuery);
 
 		scenes.stream().forEach(scene ->{
 			 if( collect.containsKey(scene.getId())){
