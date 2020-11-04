@@ -14,7 +14,7 @@ import com.bmsoft.cloud.work.dto.script.ScenariosUpdateDTO;
 import com.bmsoft.cloud.work.entity.scripts.Scenarios;
 import com.bmsoft.cloud.work.properties.TypeProperties;
 import com.bmsoft.cloud.work.service.script.ScenariosService;
-import com.bmsoft.cloud.work.service.template.TemplateService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -45,8 +45,8 @@ public class ScenariosController extends
 
 	@Resource
 	public ScenariosService scenariosService;
-	@Resource
-	private TemplateService templateService;
+	/*@Resource
+	private TemplateService templateService;*/
 	@SuppressWarnings("unchecked")
 	@Override
 	public R<Scenarios> handlerSave(ScenariosSaveDTO model) {
