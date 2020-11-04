@@ -36,7 +36,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName(value = "certificateType", autoResultMap = true)
+@TableName(value = "certificatetype", autoResultMap = true)
 @ApiModel(value = "CertificateType", description = "凭证")
 @AllArgsConstructor
 public class CertificateType extends Entity<Long> {

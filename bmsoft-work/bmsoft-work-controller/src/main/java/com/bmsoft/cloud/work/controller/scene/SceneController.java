@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.bmsoft.cloud.base.R;
 import com.bmsoft.cloud.base.controller.SuperCacheController;
 import com.bmsoft.cloud.base.request.PageParams;
+import com.bmsoft.cloud.database.mybatis.conditions.Wraps;
+import com.bmsoft.cloud.database.mybatis.conditions.query.LbqWrapper;
 import com.bmsoft.cloud.database.mybatis.conditions.query.QueryWrap;
 import com.bmsoft.cloud.log.annotation.SysLog;
 import com.bmsoft.cloud.security.annotation.PreAuth;
@@ -12,7 +14,11 @@ import com.bmsoft.cloud.work.dto.scene.ScenePageDTO;
 import com.bmsoft.cloud.work.dto.scene.SceneSaveDTO;
 import com.bmsoft.cloud.work.dto.scene.SceneUpdateDTO;
 import com.bmsoft.cloud.work.entity.scene.Scene;
+import com.bmsoft.cloud.work.entity.scripts.Scenarios;
+import com.bmsoft.cloud.work.entity.scripts.Scripts;
 import com.bmsoft.cloud.work.service.scene.SceneService;
+import com.bmsoft.cloud.work.service.script.ScenariosService;
+import com.bmsoft.cloud.work.service.script.ScriptsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -49,6 +55,13 @@ public class SceneController extends
 
 	public SceneService sceneService;
 
+	@Resource
+
+	public ScenariosService scenariosService;
+	@Resource
+
+	public ScriptsService scriptsService;
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public R<Scene> handlerSave(SceneSaveDTO model) {
@@ -72,6 +85,16 @@ public class SceneController extends
 
 		if (list.stream().anyMatch(scene -> scene.getIsDefault())) {
 			return R.fail(400, "存在内置场景，不可删除");
+		}
+		LbqWrapper<Scenarios> query = Wraps.<Scenarios>lbQ().in(Scenarios::getScene, longs);
+		List<Scenarios> scenarios = scenariosService.list(query);
+		if(scenarios!=null&&!scenarios.isEmpty()){
+			return R.fail(400, "存在关联脚本，不可删除");
+		}
+		LbqWrapper<Scripts> scriptsQuery = Wraps.<Scripts>lbQ().in(Scripts::getScene, longs);
+		List<Scripts> scriptsList = scriptsService.list(scriptsQuery);
+		if(scriptsList!=null&&!scriptsList.isEmpty()){
+			return R.fail(400, "存在关联剧本，不可删除");
 		}
 		return  super.handlerDelete(longs);
 	}

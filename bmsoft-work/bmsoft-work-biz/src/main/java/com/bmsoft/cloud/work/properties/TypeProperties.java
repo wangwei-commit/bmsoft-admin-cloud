@@ -20,6 +20,9 @@ public class TypeProperties {
 	private String fileUrl;
 	//作业模板同步地址
 	private String templateUrl;
+
+	//认证信息
+	private String auth;
 	@Data
 	public static class Type {
 

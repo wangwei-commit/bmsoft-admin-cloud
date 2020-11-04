@@ -1,6 +1,6 @@
 package com.bmsoft.cloud.work.controller.certificate;
 
-import static com.bmsoft.cloud.work.util.TypeUtil.handler;
+import static com.bmsoft.cloud.work.util.TypeUtil.handlerRemoveField;
 
 import java.util.List;
 import java.util.Map;
@@ -8,6 +8,10 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.bmsoft.cloud.database.mybatis.conditions.Wraps;
+import com.bmsoft.cloud.database.mybatis.conditions.query.LbqWrapper;
+import com.bmsoft.cloud.work.entity.template.Template;
+import com.bmsoft.cloud.work.service.template.TemplateService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,11 +56,12 @@ public class CertificateController extends
 
 	@Resource
 	private CurrentUserOperate currentUserOperate;
-
+	@Resource
+	private TemplateService templateService;
 	@SuppressWarnings("unchecked")
 	@Override
 	public R<Certificate> handlerUpdate(CertificateUpdateDTO model) {
-		return handler(model.getTypeDetails(),
+		return handlerRemoveField(model.getTypeDetails(),
 				StrUtil.isNotBlank(model.getType()) ? baseService.getTypeFieldByType(model.getType())
 						: ListUtil.empty(),
 				model, dto -> super.handlerUpdate((CertificateUpdateDTO) dto));
@@ -65,7 +70,7 @@ public class CertificateController extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public R<Certificate> handlerSave(CertificateSaveDTO model) {
-		return handler(model.getTypeDetails(),
+		return handlerRemoveField(model.getTypeDetails(),
 				StrUtil.isNotBlank(model.getType()) ? baseService.getTypeFieldByType(model.getType())
 						: ListUtil.empty(),
 				model, dto -> super.handlerSave((CertificateSaveDTO) dto));
@@ -91,6 +96,16 @@ public class CertificateController extends
 	@PreAuth("hasPermit('{}viewTypeField')")
 	public R<List<TypeField>> getTypeField(@PathVariable("type") String type) {
 		return success(baseService.getTypeFieldByType(type));
+	}
+
+	@Override
+	public R<Boolean> handlerDelete(List<Long> longs) {
+		LbqWrapper<Template> query = Wraps.<Template>lbQ().in(Template::getCertificates, longs);
+		List<Template> templates = templateService.list(query);
+		if(templates!=null&&!templates.isEmpty()){
+			return R.fail(400, "凭证已关联作业模板，不可删除");
+		}
+		return  super.handlerDelete(longs);
 	}
 
 	/**

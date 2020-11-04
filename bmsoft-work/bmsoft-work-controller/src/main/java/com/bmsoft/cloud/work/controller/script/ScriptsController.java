@@ -5,15 +5,20 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.bmsoft.cloud.base.R;
 import com.bmsoft.cloud.base.controller.SuperCacheController;
 import com.bmsoft.cloud.base.request.PageParams;
+import com.bmsoft.cloud.database.mybatis.conditions.Wraps;
+import com.bmsoft.cloud.database.mybatis.conditions.query.LbqWrapper;
 import com.bmsoft.cloud.database.mybatis.conditions.query.QueryWrap;
 import com.bmsoft.cloud.log.annotation.SysLog;
 import com.bmsoft.cloud.security.annotation.PreAuth;
 import com.bmsoft.cloud.work.dto.script.ScriptsPageDTO;
 import com.bmsoft.cloud.work.dto.script.ScriptsSaveDTO;
 import com.bmsoft.cloud.work.dto.script.ScriptsUpdateDTO;
+import com.bmsoft.cloud.work.entity.scripts.Scenarios;
 import com.bmsoft.cloud.work.entity.scripts.Scripts;
+import com.bmsoft.cloud.work.entity.template.Template;
 import com.bmsoft.cloud.work.properties.TypeProperties;
 import com.bmsoft.cloud.work.service.script.ScriptsService;
+import com.bmsoft.cloud.work.service.template.TemplateService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -56,6 +61,8 @@ public class ScriptsController extends
 
 	@Resource
 	private TypeProperties typeProperties;
+	@Resource
+	private TemplateService templateService;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -71,7 +78,11 @@ public class ScriptsController extends
 
 	@Override
 	public R<Boolean> handlerDelete(List<Long> longs) {
-
+		LbqWrapper<Template> query = Wraps.<Template>lbQ().in(Template::getScriptId, longs);
+		List<Template> templates = templateService.list(query);
+		if(templates!=null&&!templates.isEmpty()){
+			return R.fail(400, "剧本已关联作业模板，不可删除");
+		}
 		return  super.handlerDelete(longs);
 	}
 
@@ -153,7 +164,7 @@ public class ScriptsController extends
 		return null;
 	}
 
-	private static String imageIdentify2(String methodUrl, InputStream inputStream, String fileName) {
+	private  String imageIdentify2(String methodUrl, InputStream inputStream, String fileName) {
 		HttpURLConnection connection = null;
 		OutputStream dataout = null;
 		BufferedReader bf = null;
@@ -161,7 +172,7 @@ public class ScriptsController extends
 		String END_DATA = ("\r\n--" + BOUNDARY + "--\r\n");
 		String BOUNDARY_PREFIX = "--";
 		String NEW_LINE = "\r\n";
-		String authString =  "some:one";
+		String authString = typeProperties.getAuth() ;
 		byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
 		String authStringEnc = new String(authEncBytes);
 		try {

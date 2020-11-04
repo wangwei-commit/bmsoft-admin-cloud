@@ -58,7 +58,7 @@ public class TypeUtil {
 		}
 		return null;
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public static R handler(Map<String, Object> typeDetails, List<TypeField> fields, Serializable dto, Function<Serializable, R> function) {
 		R r = vaildType(typeDetails, fields);
@@ -67,4 +67,23 @@ public class TypeUtil {
 		}
 		return function.apply(dto);
 	}
+	public static R handlerRemoveField(Map<String, Object> typeDetails, List<TypeField> fields, Serializable dto, Function<Serializable, R> function) {
+		R r = vaildType(typeDetails, fields);
+		if (r != null) {
+			return r;
+		}
+		removeFieldValue(typeDetails, fields);
+		return function.apply(dto);
+	}
+	public static void removeFieldValue(Map<String, Object> details, List<TypeField> fields) {
+
+		for (TypeField typeField : fields) {
+			Object object = details.get(typeField.getField());
+
+			if (FieldType.PASSWORD.equals(typeField.getFieldType()) && object != null) {
+				details.remove(typeField.getFieldType());
+			}
+		}
+	}
+
 }

@@ -17,7 +17,7 @@ import com.bmsoft.cloud.work.entity.scripts.Scenarios;
 import com.bmsoft.cloud.work.entity.template.Template;
 import com.bmsoft.cloud.work.properties.TypeProperties;
 import com.bmsoft.cloud.work.service.script.ScenariosService;
-/*import com.bmsoft.cloud.work.service.template.TemplateService;*/
+import com.bmsoft.cloud.work.service.template.TemplateService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -48,8 +48,8 @@ public class ScenariosController extends
 
 	@Resource
 	public ScenariosService scenariosService;
-	/*@Resource
-	private TemplateService templateService;*/
+	@Resource
+	private TemplateService templateService;
 	@SuppressWarnings("unchecked")
 	@Override
 	public R<Scenarios> handlerSave(ScenariosSaveDTO model) {
@@ -64,11 +64,11 @@ public class ScenariosController extends
 
 	@Override
 	public R<Boolean> handlerDelete(List<Long> longs) {
-		/*LbqWrapper<Template> query = Wraps.<Template>lbQ().in(Template::getScriptId, longs);
+		LbqWrapper<Template> query = Wraps.<Template>lbQ().in(Template::getScriptId, longs);
 		List<Template> templates = templateService.list(query);
 		if(templates!=null&&!templates.isEmpty()){
 			return R.fail(400, "脚本已关联作业模板，不可删除");
-		}*/
+		}
 		return  super.handlerDelete(longs);
 	}
 
