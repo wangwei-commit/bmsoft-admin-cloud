@@ -29,7 +29,7 @@ import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.*;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("template")
+@TableName(value="template", autoResultMap = true)
 @ApiModel(value = "Template", description = "作业模板")
 @AllArgsConstructor
 public class Template extends Entity<Long> {

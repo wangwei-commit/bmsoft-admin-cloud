@@ -27,7 +27,7 @@ import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.*;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("script")
+@TableName(value ="script", autoResultMap = true)
 @ApiModel(value = "Scenarios", description = "脚本")
 @AllArgsConstructor
 public class Scenarios extends Entity<Long> {

@@ -30,7 +30,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("scene")
+@TableName(value="scene", autoResultMap = true)
 @ApiModel(value = "Scene", description = "运维场景")
 @AllArgsConstructor
 public class Scene extends Entity<Long> {
