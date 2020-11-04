@@ -14,6 +14,7 @@ import com.bmsoft.cloud.work.dto.script.ScenariosUpdateDTO;
 import com.bmsoft.cloud.work.entity.scripts.Scenarios;
 import com.bmsoft.cloud.work.properties.TypeProperties;
 import com.bmsoft.cloud.work.service.script.ScenariosService;
+import com.bmsoft.cloud.work.service.template.TemplateService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -38,14 +39,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/scenarios")
 @Api(value = "Scenarios", tags = "脚本")
-@PreAuth(replace = "scenarios:")
+//@PreAuth(replace = "scenarios:")
 public class ScenariosController extends
 		SuperCacheController<ScenariosService, Long, Scenarios, ScenariosPageDTO, ScenariosSaveDTO, ScenariosUpdateDTO> {
 
 	@Resource
-
 	public ScenariosService scenariosService;
-
+	@Resource
+	private TemplateService templateService;
 	@SuppressWarnings("unchecked")
 	@Override
 	public R<Scenarios> handlerSave(ScenariosSaveDTO model) {
@@ -60,7 +61,11 @@ public class ScenariosController extends
 
 	@Override
 	public R<Boolean> handlerDelete(List<Long> longs) {
-
+		/*LbqWrapper<Template> query = Wraps.<Template>lbQ().in(Template::getScriptId, longs);
+		List<Template> templates = templateService.list(query);
+		if(templates!=null&&!templates.isEmpty()){
+			return R.fail(400, "脚本已关联作业模板，不可删除");
+		}*/
 		return  super.handlerDelete(longs);
 	}
 
@@ -78,14 +83,14 @@ public class ScenariosController extends
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "id", value = "脚本ID", dataType = "Long", paramType = "query", required = true),
 			@ApiImplicitParam(name = "name", value = "名称", dataType = "String", paramType = "query", required = true),
-			@ApiImplicitParam(name = "alias", value = "别名", dataType = "String", paramType = "query", required = true)})
+			@ApiImplicitParam(name = "description", value = "描述", dataType = "String", paramType = "query")})
 	@PostMapping("/copy")
-	@SysLog("'复制脚本,id:' + #id+' name: '+#name+' alias:'+#alias")
+	@SysLog("'复制脚本,id:' + #id+' name: '+#name+' description:'+#description")
 	@PreAuth("hasPermit('{}copyModel')")
-	public R<Scenarios> copyModel(@RequestParam("id") Long id,@RequestParam("name") String name,@RequestParam("alias") String alias) {
+	public R<Scenarios> copyModel(@RequestParam("id") Long id,@RequestParam("name") String name,@RequestParam("description") String description) {
 
 			Scenarios scenarios = scenariosService.getByIdCache(id);
-			scenarios.setAlias(alias);
+			scenarios.setDescription(description);
 			scenarios.setName(name);
 			scenarios.setId(null);
 			scenarios.setCreateUser(null);
