@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.bmsoft.cloud.base.R;
 import com.bmsoft.cloud.base.controller.SuperCacheController;
 import com.bmsoft.cloud.base.request.PageParams;
+import com.bmsoft.cloud.database.mybatis.conditions.Wraps;
+import com.bmsoft.cloud.database.mybatis.conditions.query.LbqWrapper;
 import com.bmsoft.cloud.database.mybatis.conditions.query.QueryWrap;
 import com.bmsoft.cloud.log.annotation.SysLog;
 import com.bmsoft.cloud.security.annotation.PreAuth;
@@ -12,9 +14,10 @@ import com.bmsoft.cloud.work.dto.script.ScenariosPageDTO;
 import com.bmsoft.cloud.work.dto.script.ScenariosSaveDTO;
 import com.bmsoft.cloud.work.dto.script.ScenariosUpdateDTO;
 import com.bmsoft.cloud.work.entity.scripts.Scenarios;
+import com.bmsoft.cloud.work.entity.template.Template;
 import com.bmsoft.cloud.work.properties.TypeProperties;
 import com.bmsoft.cloud.work.service.script.ScenariosService;
-
+/*import com.bmsoft.cloud.work.service.template.TemplateService;*/
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -39,7 +42,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/scenarios")
 @Api(value = "Scenarios", tags = "脚本")
-//@PreAuth(replace = "scenarios:")
+@PreAuth(replace = "scenarios:")
 public class ScenariosController extends
 		SuperCacheController<ScenariosService, Long, Scenarios, ScenariosPageDTO, ScenariosSaveDTO, ScenariosUpdateDTO> {
 
@@ -88,16 +91,10 @@ public class ScenariosController extends
 	@SysLog("'复制脚本,id:' + #id+' name: '+#name+' description:'+#description")
 	@PreAuth("hasPermit('{}copyModel')")
 	public R<Scenarios> copyModel(@RequestParam("id") Long id,@RequestParam("name") String name,@RequestParam("description") String description) {
-
 			Scenarios scenarios = scenariosService.getByIdCache(id);
-			scenarios.setDescription(description);
-			scenarios.setName(name);
-			scenarios.setId(null);
-			scenarios.setCreateUser(null);
-			scenarios.setCreateTime(null);
-			scenarios.setUpdateTime(null);
-			scenarios.setUpdateUser(null);
 			ScenariosSaveDTO saveDTO = JSONObject.parseObject(JSONObject.toJSONString(scenarios),ScenariosSaveDTO.class);
+			saveDTO.setName(name);
+			saveDTO.setDescription(description);
 			return super.save(saveDTO);
 	}
 
