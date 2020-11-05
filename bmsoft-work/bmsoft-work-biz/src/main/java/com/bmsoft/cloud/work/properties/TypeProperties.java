@@ -36,7 +36,7 @@ public class TypeProperties {
 	public static class PlateForm {
 
 		private String id;
-
+		private String value;
 		private String label;
 
 		private List<PlateForm> children;
