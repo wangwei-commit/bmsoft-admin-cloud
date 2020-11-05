@@ -16,6 +16,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
@@ -79,7 +80,7 @@ public class Scripts extends Entity<Long> {
     @NotEmpty(message = "适用平台不能为空")
     @TableField(value = "platform", typeHandler = FastjsonTypeHandler.class)
     @Excel(name = "适用平台")
-    private Map<String, Object> platform;
+    private List<Map<String, Object>> platform;
 
     /**
      * 依赖
@@ -104,7 +105,7 @@ public class Scripts extends Entity<Long> {
     @ApiModelProperty(value = "入参")
     @TableField(value = "in_param", typeHandler = FastjsonTypeHandler.class)
     @Excel(name = "入参")
-    private Map<String, Object> inParam;
+    private List<Map<String, Object>> inParam;
 
     /**
      * 出参
@@ -112,7 +113,7 @@ public class Scripts extends Entity<Long> {
     @ApiModelProperty(value = "出参")
     @TableField(value = "out_param", typeHandler = FastjsonTypeHandler.class)
     @Excel(name = "出参")
-    private Map<String, Object> outParam;
+    private List<Map<String, Object>> outParam;
 
 
     @ApiModelProperty("创建人")

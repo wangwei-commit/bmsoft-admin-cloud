@@ -171,11 +171,15 @@ public class TemplateController extends
 		if (TemplateFileType.SCENARIOS.eq(model.getTemplateFileType())){
 			Scenarios scenarios = scenariosService.getByIdCache(model.getScriptId().getKey());
 			entity.getKwargs().setScenarios(scenarios);
-			entity.getKwargs().setOutParam(scenarios.getOutParam());
+			//todo
+
+			//entity.getKwargs().setOutParam(scenarios.getOutParam());
 		}else {
 			Scripts scripts = scriptsService.getByIdCache(model.getScriptId().getKey());
 			entity.getKwargs().setScripts(scripts);
-			entity.getKwargs().setOutParam(scripts.getOutParam());
+			//todo
+
+			//entity.getKwargs().setOutParam(scripts.getOutParam());
 		}
 		entity.getKwargs().setInParam(model.getParam());
 		entity.getKwargs().setFilterHost(model.getFilterHost());

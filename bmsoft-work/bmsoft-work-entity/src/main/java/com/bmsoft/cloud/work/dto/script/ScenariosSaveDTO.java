@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 import static com.bmsoft.cloud.common.constant.InjectionFieldConstants.SCENE_ID_CLASS;
@@ -75,7 +76,7 @@ public class ScenariosSaveDTO implements Serializable {
 	 */
 	@ApiModelProperty(value = "适用平台")
 	@NotEmpty(message = "适用平台不能为空")
-	private Map<String, Object> platform;
+	private List<Map<String, Object>> platform;
 
 	/**
 	 * 依赖
@@ -89,13 +90,13 @@ public class ScenariosSaveDTO implements Serializable {
 	 * 入参
 	 */
 	@ApiModelProperty(value = "入参")
-	private Map<String, Object> inParam;
+	private List<Map<String, Object>> inParam;
 
 	/**
 	 * 出参
 	 */
 	@ApiModelProperty(value = "出参")
-	private Map<String, Object> outParam;
+	private List<Map<String, Object>> outParam;
 
 
 	/**

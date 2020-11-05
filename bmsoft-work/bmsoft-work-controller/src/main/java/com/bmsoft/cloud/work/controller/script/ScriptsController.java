@@ -1,5 +1,6 @@
 package com.bmsoft.cloud.work.controller.script;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.bmsoft.cloud.base.R;
@@ -35,6 +36,8 @@ import javax.annotation.Resource;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -147,10 +150,16 @@ public class ScriptsController extends
 				originalFilename = originalFilename.replace(".tar.gz","");
 				script.setName(originalFilename);
 				script.setAlias(originalFilename);
-				script.setInParam(JSONObject.toJavaObject(inParam, Map.class));
+				script.setInParam(JSONArray.toJavaObject(inParam, List.class));
 				JSONObject jsonObject =scripts.getJSONObject("galaxy_info");
-				script.setPlatform(jsonObject.getJSONArray("platforms").stream()
-						.collect(Collectors.toMap(s -> JSONObject.parseObject(s+"").get("name")+"", s -> JSONObject.parseObject(s+"").get("versions"))));
+				List<Map<String, Object>> platform = new ArrayList<>();
+				jsonObject.getJSONArray("platforms").stream()
+						.forEach(o -> {
+							Map<String, Object> map = new HashMap<>();
+							map.put(JSONObject.parseObject(0+"").get("name")+"", JSONObject.parseObject(0+"").get("versions"));
+							platform.add(map);})
+						;
+				script.setPlatform(platform);
 				script.setDescription(jsonObject.getString("description"));
 				script.setTags(roleTags.getString("vars").substring(1,roleTags.getString("vars").length()-1));
 				return R.success(script);
